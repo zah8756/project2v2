@@ -2,76 +2,82 @@
 
 var socket = io();
 
-// const handleText = (e) =>{
-//   e.preventDefault(); // prevents page reloading
-//   socket.emit('chat message', $('#m').val());
-//   $('#m').val('');
-//   return false;
+var handleText = function handleText(e) {
+  e.preventDefault(); // prevents page reloading
+  console.log('clap');
+  socket.emit('chat message', $('#m').val());
+  $('#m').val('');
+
+  // sok();
+  return false;
+};
+
+var sok = function sok() {
+  socket.on('chat message', function (msg) {
+    console.log('activated');
+
+    $('#messages').append($('<li>').text(msg));
+    window.scrollTo(0, document.body.scrollHeight);
+  });
+};
+
+var GameForm = function GameForm(props) {
+  return React.createElement(
+    'form',
+    { id: 'messageForm',
+      onSubmit: handleText,
+      name: 'messageForm',
+      action: '',
+      method: 'POST' },
+    React.createElement('input', { id: 'm', type: 'text', autocomplete: 'off' }),
+    React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
+    React.createElement('input', { className: 'buttonSend', type: 'submit', value: 'Send' })
+  );
+};
+
+// const GameList = (props) => {
+
 // }
 
+var setup = function setup(csrf) {
+  ReactDOM.render(React.createElement(GameForm, { csrf: csrf }), document.querySelector('#sender'));
 
-//   socket.on ('chat message', (msg) => {
-//     console.log('activated');
-//     // $('#messages').append($('<li>').text(msg));
-//     // window.scrollTo(0, document.body.scrollHeight);
-//     socket.broadcast.emit("received", { message: msg  });
-//   });
+  // ReactDOM.render(
+  //     <GameListP gList={[]}/>, document.querySelector('#mesages')
+  // );
+};
 
-
-// const GameForm = () => {
-//   return (
-//       <form id='messageForm'
-//       onSubmit={handleText}
-//       name='messageForm'
-//       action='/chat'
-//       method='POST'>
-//           <input id="m" type='text' autocomplete="off" />
-//           {/* <input type='hidden' name='_csrf' value={props.csrf} /> */}
-//           <input className='buttonSend' type='submit' value='Send' />
-//       </form>
-//   );
-// };
-
-// const setup = function() {
-//   ReactDOM.render(
-//       <GameForm/>, document.querySelector('#sender')
-//   );
-
-//   // ReactDOM.render(
-//   //     <GameListP gList={[]}/>, document.querySelector('#mesages')
-//   // );
-// };
-
-// const getToken = () => {
-//   sendAjax('GET', '/getToken', null, (result) => {
-//       setup(result.csrfToken);
-//   });
-// };
-
-// $(document).ready(function() {
-//   getToken();
-// });
-
-$(function () {
-  $('#send').click(function () {
-    sendMessage({ name: $('#name').val(), message: $('#message').val() });
+var getToken = function getToken() {
+  sendAjax('GET', '/getToken', null, function (result) {
+    setup(result.csrfToken);
   });
-  getMessages();
+};
+
+$(document).ready(function () {
+  sok();
+  getToken();
 });
-socket.on('message', addMessages);
 
-function addMessages(message) {
-  $('#messages').append('<h4> ' + message.name + ' </h4> <p> ' + message.message + ' </p>');
-}
+// $(() => {
+//   $('#send').click(() => {
+//     sendMessage({ name: $('#name').val(), message: $('#message').val() });
+//   });
+//   getMessages();
+// });
+// socket.on('message', addMessages);
 
-function getMessages() {
-  $.get('http://localhost:3000/messages', function (data) {
-    data.forEach(addMessages);
-  });
-}
-function sendMessage(message) {
-  $.post('http://localhost:3000/messages', message);
-}
+// function addMessages(message) {
+//   $('#messages').append(`<h4> ${message.name} </h4> <p> ${message.message} </p>`);
+// }
+
+// function getMessages() {
+//   $.get('http://localhost:3000/messages', (data) => {
+//     data.forEach(addMessages);
+//   });
+// }
+// function sendMessage(message) {
+//   $.post('http://localhost:3000/messages', message);
+// }
 'use strict';
 
 var handleError = function handleError(message) {
