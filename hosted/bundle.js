@@ -5,7 +5,7 @@ var handlePlayer = function handlePlayer(e) {
 
     $('#playerMessage').animate({ width: 'hide' }, 350);
 
-    if ($('#playerName').val() == '' || $('#playerAge').val() == '' || $('#playerLevel').val() == '' || $('#playerMoney').val() == '') {
+    if ($('#playerName').val() == '' || $('#playerWins').val() == '' || $('#playerLosses').val() == '' || $('#playerMoney').val() == '') {
         handleError('RAWR! All fields are required');
         return false;
     }
@@ -35,15 +35,15 @@ var PlayerForm = function PlayerForm(props) {
         React.createElement(
             'label',
             { htmlFor: 'age' },
-            'Age: '
+            'wins: '
         ),
-        React.createElement('input', { id: 'playerAge', type: 'text', name: 'age', placeholder: 'Player Age' }),
+        React.createElement('input', { id: 'playerWins', type: 'text', name: 'wins', placeholder: 'Player wins' }),
         React.createElement(
             'label',
             { htmlFor: 'level' },
-            'Level: '
+            'losses: '
         ),
-        React.createElement('input', { id: 'playerLevel', type: 'text', name: 'level', placeholder: 'Player Level' }),
+        React.createElement('input', { id: 'playerLosses', type: 'text', name: 'losses', placeholder: 'Player losses' }),
         React.createElement(
             'label',
             { htmlFor: 'money' },
@@ -83,15 +83,15 @@ var PlayerList = function PlayerList(props) {
             React.createElement(
                 'h3',
                 { className: 'playerAge' },
-                ' Age: ',
-                player.age,
+                ' Wins: ',
+                player.wins,
                 ' '
             ),
             React.createElement(
                 'h3',
                 { className: 'playerLevel' },
-                ' Level: ',
-                player.level,
+                ' Losses: ',
+                player.losses,
                 ' '
             )
         );

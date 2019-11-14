@@ -3,7 +3,7 @@ const mid = require('./middleware');
 
 const router = (app) => {
   app.get('/getToken', mid.requiresSecure, controllers.Account.getToken);
-  app.get('/getPlayer', mid.requiresSecure, controllers.Domo.getPlayer);// change
+  app.get('/getPlayer', mid.requiresSecure, controllers.Player.getPlayer);// change
   app.get('/checkMoney', mid.requiresSecure, controllers.Account.moneyPage);
   app.get('/game', mid.requiresSecure, controllers.Account.gamePage);
   app.get('/messages', mid.requiresSecure, controllers.Game.messager);
@@ -13,8 +13,8 @@ const router = (app) => {
   app.post('/chat', mid.requiresLogin, controllers.Game.chat);
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
-  app.get('/maker', mid.requiresLogin, controllers.Domo.makerPage);// change
-  app.post('/maker', mid.requiresLogin, controllers.Domo.make);// change
+  app.get('/maker', mid.requiresLogin, controllers.Player.makerPage);// change
+  app.post('/maker', mid.requiresLogin, controllers.Player.make);// change
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 

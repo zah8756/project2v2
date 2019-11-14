@@ -16,13 +16,13 @@ const PlayerSchema = new mongoose.Schema({
     set: setName,
   },
 
-  age: {
+  wins: {
     type: Number,
     min: 0,
     required: true,
   },
 
-  level: {
+  losses: {
     type: Number,
     min: 0,
     required: true,
@@ -49,8 +49,8 @@ const PlayerSchema = new mongoose.Schema({
 
 PlayerSchema.statics.toAPI = (doc) => ({
   name: doc.name,
-  age: doc.age,
-  level: doc.level,
+  wins: doc.wins,
+  losses: doc.losses,
   money: doc.money,
 });
 
@@ -59,7 +59,7 @@ PlayerSchema.statics.findByOwner = (ownerId, callback) => {
     owner: convertId(ownerId),
   };
 
-  return PlayerModel.find(search).select('name age level money').exec(callback);
+  return PlayerModel.find(search).select('name wins losses money').exec(callback);
 };
 
 PlayerModel = mongoose.model('Player', PlayerSchema);

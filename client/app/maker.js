@@ -3,7 +3,7 @@ const handlePlayer = (e) => {
 
     $('#playerMessage').animate({width:'hide'}, 350);
 
-    if($('#playerName').val() == '' || $('#playerAge').val() == '' || $('#playerLevel').val() == '' || $('#playerMoney').val() == '') {
+    if($('#playerName').val() == '' || $('#playerWins').val() == '' || $('#playerLosses').val() == '' || $('#playerMoney').val() == '') {
         handleError('RAWR! All fields are required');
         return false;
     }
@@ -27,10 +27,10 @@ const PlayerForm = (props) => {
         className='playerForm' >
             <label htmlFor='name'>Name: </label>
             <input id='playerName' type='text' name='name' placeholder='Player Name' />
-            <label htmlFor='age'>Age: </label>
-            <input id='playerAge' type='text' name='age' placeholder='Player Age' />
-            <label htmlFor='level'>Level: </label>
-            <input id='playerLevel' type='text' name='level' placeholder='Player Level' />
+            <label htmlFor='age'>wins: </label>
+            <input id='playerWins' type='text' name='wins' placeholder='Player wins' />
+            <label htmlFor='level'>losses: </label>
+            <input id='playerLosses' type='text' name='losses' placeholder='Player losses' />
             <label htmlFor='money'>Money: </label>
             <input id='playerMoney' type='text' name='money' placeholder='Player Money' />
             <input type='hidden' name='_csrf' value={props.csrf} />
@@ -53,8 +53,8 @@ const PlayerList = function(props) {
             <div key={player._id} className='player'>
                 <img src='/assets/img/domoFace.jpeg' alt='player face' className='domoFace'/>
                 <h3 className='playerName'> Name: {player.name} </h3>
-                <h3 className='playerAge'> Age: {player.age} </h3>
-                <h3 className='playerLevel'> Level: {player.level} </h3>
+                <h3 className='playerAge'> Wins: {player.wins} </h3>
+                <h3 className='playerLevel'> Losses: {player.losses} </h3>
             </div>
         );
     });

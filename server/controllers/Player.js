@@ -1,5 +1,5 @@
 const models = require('../models');
-const Player = models.Domo;
+const Player = models.Player;
 
 const makerPage = (req, res) => {
   Player.PlayerModel.findByOwner(req.session.account._id, (err, docs) => {
@@ -12,13 +12,13 @@ const makerPage = (req, res) => {
 };
 
 const makePlayer = (req, res) => {
-  if (!req.body.name || !req.body.age || !req.body.level || !req.body.money) {
+  if (!req.body.name || !req.body.wins || !req.body.losses || !req.body.money) {
     return res.status(400).json({ error: 'RAWR! All fields are required' });
   }
   const playerData = {
     name: req.body.name,
-    age: req.body.age,
-    level: req.body.level,
+    wins: req.body.wins,
+    losses: req.body.losses,
     money: req.body.money,
     owner: req.session.account._id,
   };
