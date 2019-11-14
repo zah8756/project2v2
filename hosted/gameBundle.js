@@ -35,16 +35,8 @@ var GameForm = function GameForm(props) {
   );
 };
 
-// const GameList = (props) => {
-
-// }
-
 var setup = function setup(csrf) {
   ReactDOM.render(React.createElement(GameForm, { csrf: csrf }), document.querySelector('#sender'));
-
-  // ReactDOM.render(
-  //     <GameListP gList={[]}/>, document.querySelector('#mesages')
-  // );
 };
 
 var getToken = function getToken() {
@@ -57,36 +49,16 @@ $(document).ready(function () {
   sok();
   getToken();
 });
-
-// $(() => {
-//   $('#send').click(() => {
-//     sendMessage({ name: $('#name').val(), message: $('#message').val() });
-//   });
-//   getMessages();
-// });
-// socket.on('message', addMessages);
-
-// function addMessages(message) {
-//   $('#messages').append(`<h4> ${message.name} </h4> <p> ${message.message} </p>`);
-// }
-
-// function getMessages() {
-//   $.get('http://localhost:3000/messages', (data) => {
-//     data.forEach(addMessages);
-//   });
-// }
-// function sendMessage(message) {
-//   $.post('http://localhost:3000/messages', message);
-// }
 'use strict';
 
 var handleError = function handleError(message) {
+  console.log('there is an error');
   $('#errorMessage').text(message);
-  $('#domoMessage').animate({ width: 'toggle' }, 350);
+  $('#playerMessage').animate({ width: 'toggle' }, 350);
 };
 
 var redirect = function redirect(response) {
-  $('#domoMessage').animate({ width: 'hide' }, 350);
+  $('#playerMessage').animate({ width: 'hide' }, 350);
   window.location = response.redirect;
 };
 

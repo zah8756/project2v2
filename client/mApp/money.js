@@ -1,43 +1,45 @@
-const DomoList = function(props) {
-    if(props.domos.length === 0) {
+const PlayerList = function(props) {
+    if(props.players.length === 0) {
         return (
-            <div className='domosList'>
-                <h3 className='emptyDomo'>No Domos Yet</h3>
+            <div className='playerList'>
+                <h3 className='emptyplayer'>No Players Yet</h3>
             </div>
         );
     }
 
-    const domoNodes = props.domos.map(function(domo) {
+    const playerNodes = props.players.map(function(player) {
         return (
-            <div key={domo._id} className='domo'>
-                <img src='/assets/img/domoFace.jpeg' alt='domo face' className='domoFace'/>
-                <h3 className='domoName'> Name: {domo.name} </h3>
-                <h3 className='domoMoney'> Money:$ {domo.money} </h3>
+            <div key={player._id} className='player'>
+                <img src='/assets/img/domoFace.jpeg' alt='player face' className='domoFace'/>
+                <h3 className='playerName'> Name: {player.name} </h3>
+                <h3 className='playerMoney'> Money:$ {player.money} </h3>
             </div>
         );
     });
 
     return (
-        <div className='domoList'>
-            {domoNodes}
+        <div className='playerList'>
+            {playerNodes}
         </div>
     );
 };
 
-const loadDomosFromServer = () => {
-    sendAjax('GET', '/getDomos', null, (data) => {
+
+const loadPlayersFromServer = () => {
+    sendAjax('GET', '/getPlayer', null, (data) => {
         ReactDOM.render(
-            <DomoList domos={data.domos} />, document.querySelector('#domos')
+            <PlayerList players={data.players} />, document.querySelector('#players')
         );
     });
 };
 
 const setup = function() {
+
     ReactDOM.render(
-        <DomoList domos={[]} />, document.querySelector('#domos')
+        <PlayerList players={[]}/>, document.querySelector('#players')
     );
 
-    loadDomosFromServer();
+    loadPlayersFromServer();
 };
 
 const getToken = () => {
@@ -45,8 +47,6 @@ const getToken = () => {
         setup(result.csrfToken);
     });
 };
-
-// let socket = io();
 
 $(document).ready(function() {
     getToken();

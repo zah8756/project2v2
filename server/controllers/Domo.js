@@ -1,21 +1,21 @@
 const models = require('../models');
-const Domo = models.Domo;
+const Player = models.Domo;
 
 const makerPage = (req, res) => {
-  Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
+  Player.PlayerModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'an error occured' });
     }
-    return res.render('app', { csrfToken: req.csrfToken(), domos: docs });
+    return res.render('app', { csrfToken: req.csrfToken(), players: docs });
   });
 };
 
-const makeDomo = (req, res) => {
+const makePlayer = (req, res) => {
   if (!req.body.name || !req.body.age || !req.body.level || !req.body.money) {
     return res.status(400).json({ error: 'RAWR! All fields are required' });
   }
-  const domoData = {
+  const playerData = {
     name: req.body.name,
     age: req.body.age,
     level: req.body.level,
@@ -23,35 +23,35 @@ const makeDomo = (req, res) => {
     owner: req.session.account._id,
   };
 
-  const newDomo = new Domo.DomoModel(domoData);
+  const newPlayer = new Player.PlayerModel(playerData);
 
-  const domoPromise = newDomo.save();
+  const playerPromise = newPlayer.save();
 
-  domoPromise.then(() => res.json({ redirect: '/maker' }));
+  playerPromise.then(() => res.json({ redirect: '/maker' }));
 
-  domoPromise.catch((err) => {
+  playerPromise.catch((err) => {
     console.log(err);
     if (err.code === 11000) {
-      return res.status(400).json({ error: 'Domo already in use' });
+      return res.status(400).json({ error: 'Player is already in use' });
     }
     return res.status(400).json({ error: 'An error occurred' });
   });
-  return domoPromise;
+  return playerPromise;
 };
 
-const getDomos = (request, response) => {
+const getPlayer = (request, response) => {
   const req = request;
   const res = response;
 
-  return Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
+  return Player.PlayerModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred' });
     }
-    return res.json({ domos: docs });
+    return res.json({ players: docs });
   });
 };
 
 module.exports.makerPage = makerPage;
-module.exports.getDomos = getDomos;
-module.exports.make = makeDomo;
+module.exports.getPlayer = getPlayer;
+module.exports.make = makePlayer;

@@ -1,35 +1,35 @@
 'use strict';
 
-var DomoList = function DomoList(props) {
-    if (props.domos.length === 0) {
+var PlayerList = function PlayerList(props) {
+    if (props.players.length === 0) {
         return React.createElement(
             'div',
-            { className: 'domosList' },
+            { className: 'playerList' },
             React.createElement(
                 'h3',
-                { className: 'emptyDomo' },
-                'No Domos Yet'
+                { className: 'emptyplayer' },
+                'No Players Yet'
             )
         );
     }
 
-    var domoNodes = props.domos.map(function (domo) {
+    var playerNodes = props.players.map(function (player) {
         return React.createElement(
             'div',
-            { key: domo._id, className: 'domo' },
-            React.createElement('img', { src: '/assets/img/domoFace.jpeg', alt: 'domo face', className: 'domoFace' }),
+            { key: player._id, className: 'player' },
+            React.createElement('img', { src: '/assets/img/domoFace.jpeg', alt: 'player face', className: 'domoFace' }),
             React.createElement(
                 'h3',
-                { className: 'domoName' },
+                { className: 'playerName' },
                 ' Name: ',
-                domo.name,
+                player.name,
                 ' '
             ),
             React.createElement(
                 'h3',
-                { className: 'domoMoney' },
+                { className: 'playerMoney' },
                 ' Money:$ ',
-                domo.money,
+                player.money,
                 ' '
             )
         );
@@ -37,21 +37,22 @@ var DomoList = function DomoList(props) {
 
     return React.createElement(
         'div',
-        { className: 'domoList' },
-        domoNodes
+        { className: 'playerList' },
+        playerNodes
     );
 };
 
-var loadDomosFromServer = function loadDomosFromServer() {
-    sendAjax('GET', '/getDomos', null, function (data) {
-        ReactDOM.render(React.createElement(DomoList, { domos: data.domos }), document.querySelector('#domos'));
+var loadPlayersFromServer = function loadPlayersFromServer() {
+    sendAjax('GET', '/getPlayer', null, function (data) {
+        ReactDOM.render(React.createElement(PlayerList, { players: data.players }), document.querySelector('#players'));
     });
 };
 
 var setup = function setup() {
-    ReactDOM.render(React.createElement(DomoList, { domos: [] }), document.querySelector('#domos'));
 
-    loadDomosFromServer();
+    ReactDOM.render(React.createElement(PlayerList, { players: [] }), document.querySelector('#players'));
+
+    loadPlayersFromServer();
 };
 
 var getToken = function getToken() {
@@ -60,20 +61,19 @@ var getToken = function getToken() {
     });
 };
 
-// let socket = io();
-
 $(document).ready(function () {
     getToken();
 });
 'use strict';
 
 var handleError = function handleError(message) {
+  console.log('there is an error');
   $('#errorMessage').text(message);
-  $('#domoMessage').animate({ width: 'toggle' }, 350);
+  $('#playerMessage').animate({ width: 'toggle' }, 350);
 };
 
 var redirect = function redirect(response) {
-  $('#domoMessage').animate({ width: 'hide' }, 350);
+  $('#playerMessage').animate({ width: 'hide' }, 350);
   window.location = response.redirect;
 };
 

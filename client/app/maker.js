@@ -1,15 +1,15 @@
-const handleDomo = (e) => {
+const handlePlayer = (e) => {
     e.preventDefault();
 
-    $('#domoMessage').animate({width:'hide'}, 350);
+    $('#playerMessage').animate({width:'hide'}, 350);
 
-    if($('#domoName').val() == '' || $('#domoAge').val() == '' || $('#domoLevel').val() == '' || $('#domoMoney').val() == '') {
+    if($('#playerName').val() == '' || $('#playerAge').val() == '' || $('#playerLevel').val() == '' || $('#playerMoney').val() == '') {
         handleError('RAWR! All fields are required');
         return false;
     }
 
-    sendAjax('POST', $('#domoForm').attr('action'), $('#domoForm').serialize(), function() {
-        loadDomosFromServer();
+    sendAjax('POST', $('#playerForm').attr('action'), $('#playerForm').serialize(), function() {
+        loadPlayersFromServer();
     });
 
     return false;
@@ -17,73 +17,73 @@ const handleDomo = (e) => {
 
 
 
-const DomoForm = (props) => {
+const PlayerForm = (props) => {
     return (
-        <form id='domoForm'
-        onSubmit={handleDomo}
-        name='domoForm'
+        <form id='playerForm'
+        onSubmit={handlePlayer}
+        name='playerForm'
         action='/maker'
         method='POST'
-        className='domoForm' >
+        className='playerForm' >
             <label htmlFor='name'>Name: </label>
-            <input id='domoName' type='text' name='name' placeholder='Domo Name' />
+            <input id='playerName' type='text' name='name' placeholder='Player Name' />
             <label htmlFor='age'>Age: </label>
-            <input id='domoAge' type='text' name='age' placeholder='Domo Age' />
+            <input id='playerAge' type='text' name='age' placeholder='Player Age' />
             <label htmlFor='level'>Level: </label>
-            <input id='domoLevel' type='text' name='level' placeholder='Domo Level' />
+            <input id='playerLevel' type='text' name='level' placeholder='Player Level' />
             <label htmlFor='money'>Money: </label>
-            <input id='domoMoney' type='text' name='money' placeholder='Domo Money' />
+            <input id='playerMoney' type='text' name='money' placeholder='Player Money' />
             <input type='hidden' name='_csrf' value={props.csrf} />
-            <input className='makeDomoSubmit' type='submit' value='Make Domo' />
+            <input className='makePlayerSubmit' type='submit' value='Make Player' />
         </form>
     );
 };
 
-const DomoList = function(props) {
-    if(props.domos.length === 0) {
+const PlayerList = function(props) {
+    if(props.players.length === 0) {
         return (
-            <div className='domosList'>
-                <h3 className='emptyDomo'>No Domos Yet</h3>
+            <div className='playerList'>
+                <h3 className='emptyplayer'>No Players Yet</h3>
             </div>
         );
     }
 
-    const domoNodes = props.domos.map(function(domo) {
+    const playerNodes = props.players.map(function(player) {
         return (
-            <div key={domo._id} className='domo'>
-                <img src='/assets/img/domoFace.jpeg' alt='domo face' className='domoFace'/>
-                <h3 className='domoName'> Name: {domo.name} </h3>
-                <h3 className='domoAge'> Age: {domo.age} </h3>
-                <h3 className='domoLevel'> Level: {domo.level} </h3>
+            <div key={player._id} className='player'>
+                <img src='/assets/img/domoFace.jpeg' alt='player face' className='domoFace'/>
+                <h3 className='playerName'> Name: {player.name} </h3>
+                <h3 className='playerAge'> Age: {player.age} </h3>
+                <h3 className='playerLevel'> Level: {player.level} </h3>
             </div>
         );
     });
 
     return (
-        <div className='domoList'>
-            {domoNodes}
+        <div className='playerList'>
+            {playerNodes}
         </div>
     );
 };
 
-const loadDomosFromServer = () => {
-    sendAjax('GET', '/getDomos', null, (data) => {
+const loadPlayersFromServer = () => {
+    sendAjax('GET', '/getPlayer', null, (data) => {
         ReactDOM.render(
-            <DomoList domos={data.domos} />, document.querySelector('#domos')
+            <PlayerList players={data.players} />, document.querySelector('#players')
         );
     });
 };
 
 const setup = function(csrf) {
     ReactDOM.render(
-        <DomoForm csrf={csrf}/>, document.querySelector('#makeDomo')
+        <PlayerForm csrf={csrf}/>, document.querySelector('#makePlayer')
     );
 
     ReactDOM.render(
-        <DomoList domos={[]}/>, document.querySelector('#domos')
+        <PlayerList players={[]}/>, document.querySelector('#players')
     );
 
-    loadDomosFromServer();
+    loadPlayersFromServer();
 };
 
 const getToken = () => {
@@ -91,7 +91,6 @@ const getToken = () => {
         setup(result.csrfToken);
     });
 };
-// var socket = io();
 
 $(document).ready(function() {
     getToken();
