@@ -19,7 +19,7 @@ const io = require('socket.io')(http);
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
-const dbURL = process.env.MONGODB_URI || 'mongodb://localhost/DomoMaker';
+const dbURL = process.env.MONGODB_URI || 'mongodb://localhost/RPS';
 
 mongoose.connect(dbURL, (err) => {
   if (err) {
@@ -72,7 +72,7 @@ app.use(session({
     port: redisURL.port,
     pass: redisPASS,
   }),
-  secret: 'Domo Arigato',
+  secret: 'Lets Rock',
   resave: true,
   saveUninitialized: true,
   cookie: {
@@ -95,21 +95,6 @@ app.use((err, req, res, next) => {
 });
 
 router(app);
-
-// socket.on('chat message', (msg) => {
-//   console.log(`message: ${msg}`);
-
-//   // broadcast message to everyone in port:5000 except yourself.
-//   socket.broadcast.emit('received', { message: msg });
-
-//   // save chat to the database
-//   // connect.then(db => {
-//   //   console.log('connected correctly to the server');
-//   //   const chatMessage = new Chat({ message: msg, sender: 'Anonymous' });
-
-//   //   chatMessage.save();
-//   // });
-// });
 
 http.listen(port, (err) => {
   if (err) {

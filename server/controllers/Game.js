@@ -3,21 +3,6 @@ const Message = models.Message;
 const app = require('../app');
 const io = app.io;
 
-// const message = (request, response) => {
-//   const req = request;
-//   const res = response;
-
-//   Message.find({}, (err, messages) => res.send(messages));
-// };
-
-// const messageUser = (request, response) => {
-//   const req = request;
-//   const res = response;
-
-//   const user = req.params.user;
-//   Message.find({ name: user }, (err, messages) => {
-//     res.send(messages);
-//   });
 // };
 const chat = (req, res) => {
   if (!req.body.message) {
