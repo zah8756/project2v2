@@ -12,11 +12,11 @@ const makerPage = (req, res) => {
 };
 
 const makePlayer = (req, res) => {
-  if (!req.body.name || !req.body.wins || !req.body.losses || !req.body.money) {
+  if (!req.body.wins || !req.body.losses || !req.body.money) {
     return res.status(400).json({ error: 'RAWR! All fields are required' });
   }
   const playerData = {
-    name: req.body.name,
+    name: req.session.account.username,
     wins: req.body.wins,
     losses: req.body.losses,
     money: req.body.money,

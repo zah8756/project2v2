@@ -15,7 +15,7 @@ const app = express();
 // eslint-disable-next-line new-cap
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-
+let users = [];
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
@@ -39,6 +39,28 @@ io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
     io.emit('chat message', msg);
     console.log(`message: ${msg}`);
+  });
+
+  socket.on('player choice', (playerName, choice) => {
+    users.push({ userName: playerName, playerDecision: choice });
+    if (users.length === 2) {
+      if (users[0].playerDecision === 'rock') {
+        if (users[1].playerDecision === 'rock') io.emit('tie', users);
+        if (users[1].playerDecision === 'paper') io.emit('player 2 wins', users);
+        if (users[1].playerDecision === 'scissors') io.emit('player 1 wins', users);
+        users = [];
+      } else if (users[0].playerDecision === 'paper') {
+        if (users[1].playerDecision === 'rock') io.emit('player 1 wins', users);
+        if (users[1].playerDecision === 'paper') io.emit('tie', users);
+        if (users[1].playerDecision === 'scissors') io.emit('player 2 wins', users);
+        users = [];
+      } else if (users[0].playerDecision === 'scissors') {
+        if (users[1].playerDecision === 'rock') io.emit('player 2 wins', users);
+        if (users[1].playerDecision === 'paper') io.emit('player 1 wins', users);
+        if (users[1].playerDecision === 'scissors') io.emit('tie', users);
+        users = [];
+      }
+    }
   });
 });
 

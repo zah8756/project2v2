@@ -12,7 +12,7 @@ body {
 form { 
     background: #000; 
     padding: 3px; 
-    position: fixed; 
+    /* position: fixed;  */
     bottom: 0; 
     width: 100%; 
 }
