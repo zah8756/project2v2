@@ -6,12 +6,16 @@ const loginPage = (req, res) => {
   res.render('login', { csrfToken: req.csrfToken() });
 };
 
-const moneyPage = (req, res) => {
-  res.render('money');
-};
-
 const gamePage = (req, res) => {
   res.render('game');
+};
+
+const passPage = (req, res) => {
+  res.render('passChange');
+};
+
+const moneyPage = (req, res) => {
+  res.render('money');
 };
 
 // const signupPage = (req, res) => {
@@ -57,11 +61,11 @@ const signup = (request, response) => {
   req.body.pass2 = `${req.body.pass2}`;
 
   if (!req.body.username || !req.body.pass || !req.body.pass2) {
-    return res.status(400).json({ error: 'RAWR! All fields are required' });
+    return res.status(400).json({ error: 'All fields are required' });
   }
 
   if (req.body.pass !== req.body.pass2) {
-    return res.status(400).json({ error: 'RAWR! Passwords do not match' });
+    return res.status(400).json({ error: 'Passwords do not match' });
   }
 
   return Account.AccountModel.generateHash(req.body.pass, (salt, hash) => {
@@ -93,6 +97,53 @@ const signup = (request, response) => {
   });
 };
 
+const changePassword = (request, response) => {
+  const req = request;
+  const res = response;
+
+  req.body.oldPass = `${req.body.oldPass}`;
+  req.body.newPass1 = `${req.body.newPass1}`;
+  req.body.newPass2 = `${req.body.newPass2}`;
+
+  if (!req.body.oldPass || !req.body.newPass1 || !req.body.newPass2) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  if (req.body.newPass1 !== req.body.newPass2) {
+    return res.status(400).json({ error: 'Passwords do not match' });
+  }
+
+  if (req.body.oldPass === req.body.newPass1) {
+    return res.status(400).json({ error: 'you can not use your old password' });
+  }
+
+  return Account.AccountModel.authenticate(`${req.session.account.username}`, req.body.oldPass,
+  (err, password) => {
+    if (err || !password) {
+      return res.status(401).json({ error: 'old password is incorrect' });
+    }
+
+    return Account.AccountModel.generateHash(req.body.newPass1, (salt, hash) => {
+      const findUser = {
+        username: req.session.account.username,
+      };
+
+      Account.AccountModel.update(findUser, { $set: { password: hash, salt } }, {}, (errors) => {
+        if (errors) {
+          return res.status(500).json({ error: 'unable to change password' });
+        }
+        return res.status(200).json({ redirect: '/maker' });
+      });
+    });
+  }
+);
+};
+const getUsername = (request, response) => {
+  const req = request;
+  const username = req.session.account.username;
+  return username;
+};
+
 const getToken = (request, response) => {
   const req = request;
   const res = response;
@@ -103,12 +154,14 @@ const getToken = (request, response) => {
 
   res.json(csrfJSON);
 };
-
+module.exports.getUsername = getUsername;
+module.exports.moneyPage = moneyPage;
 module.exports.loginPage = loginPage;
 module.exports.login = login;
 module.exports.logout = logout;
-module.exports.moneyPage = moneyPage;
 module.exports.gamePage = gamePage;
+module.exports.changePassword = changePassword;
+module.exports.passPage = passPage;
 // module.exports.signupPage = signupPage;
 module.exports.signup = signup;
 module.exports.getToken = getToken;

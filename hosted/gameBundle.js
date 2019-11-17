@@ -2,6 +2,7 @@
 
 var socket = io();
 var submitted = false;
+var user = 'test';
 // let currentUser = req.session.account.username;
 
 var handleText = function handleText(e) {
@@ -29,8 +30,8 @@ var handleRPS = function handleRPS(e) {
   var userChoice = $('input[name=choice]:checked').val();
   if (!submitted) {
     submitted = true;
-    socket.emit('player choice', "currentUser", userChoice);
-    $('#info').html('Waiting for the other players decision');
+    socket.emit('player choice', user, userChoice); //change current user to the current userers name not sure how though 
+    $('#info').html('Waiting for the other players decision'); //need to get rid of this or put the text onto another line 
   } else $('#info').html('You can not change your decision');
 
   return false;
@@ -38,17 +39,17 @@ var handleRPS = function handleRPS(e) {
 
 var gameCheck = function gameCheck() {
   socket.on('tie', function () {
-    $('#info').append('A tie!');
+    $('#info').append($('<li>').text('A tie!'));
     submitted = false;
   });
 
   socket.on('player 1 wins', function (user) {
-    $('#info').append(user[0].userName + ' wins!');
+    $('#info').append($('<li>').text(user[0].userName + ' wins!'));
     submitted = false;
   });
 
   socket.on('player 2 wins', function (user) {
-    $('#info').append(user[1].userName + ' wins!');
+    $('#info').append($('<li>').text(user[1].userName + ' wins!'));
     submitted = false;
   });
 };
@@ -104,6 +105,16 @@ var RPSForm = function RPSForm(props) {
 var setup = function setup(csrf) {
   ReactDOM.render(React.createElement(GameForm, { csrf: csrf }), document.querySelector('#sender'));
   ReactDOM.render(React.createElement(RPSForm, { csrf: csrf }), document.querySelector('#RPS'));
+
+  loadPlayersFromServer();
+};
+
+var loadPlayersFromServer = function loadPlayersFromServer() {
+  console.log('got from server');
+  sendAjax('GET', '/getUsername', null, function (data) {
+    user = data;
+    console.log(user);
+  });
 };
 
 var getToken = function getToken() {

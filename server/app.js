@@ -83,7 +83,7 @@ const router = require('./router.js');
 app.use('/assets', express.static(path.resolve(`${__dirname}/../hosted/`)));
 app.use(favicon(`${__dirname}/../hosted/img/favicon.png`));
 app.use(compression());
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
@@ -111,7 +111,6 @@ app.use(cookieParser());
 app.use(csrf());
 app.use((err, req, res, next) => {
   if (err.code !== 'EBADCSRFTOKEN') return next(err);
-
   console.log('Missing CSRF token');
   return false;
 });

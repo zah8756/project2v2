@@ -8,6 +8,11 @@ const router = (app) => {
   app.get('/game', mid.requiresSecure, controllers.Account.gamePage);
   app.get('/messages', mid.requiresSecure, controllers.Game.messager);
   app.post('/messages', mid.requiresSecure, controllers.Game.pMessager);
+  app.get('/getUsername', mid.requiresSecure, controllers.Account.getUsername);
+  app.post('/changePassword', mid.requiresSecure, mid.requiresLogin
+  , controllers.Account.changePassword);
+  app.post('/addMoney', mid.requiresSecure, mid.requiresLogin, controllers.Player.addMoney);
+  app.get('/passPage', mid.requiresSecure, controllers.Account.passPage);
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
   app.post('/chat', mid.requiresLogin, controllers.Game.chat);

@@ -31,7 +31,7 @@ const handleSignup = (e) => {
         return false;
     }
 
-    sendAjax('POST', $("#signupForm").attr("action"), $("#signupForm").serialize(), redirect);
+    sendAjax('POST', $("#signupForm").attr("action"), $("#signupForm").serialize(),redirect);
 
     return false;
 };
@@ -103,6 +103,13 @@ const setup = (csrf) => {
     });
 
     createLoginWindow(csrf);
+    // addPlayerstoServer();
+};
+
+const addPlayerstoServer = () => {
+    sendAjax('POST', '/maker', null, (data) => {
+        console.log(data.Player)
+    });
 };
 
 const getToken = () => {
@@ -114,5 +121,6 @@ const getToken = () => {
 // let socket = io();
 
 $(document).ready(function() {
+    
     getToken();
 });

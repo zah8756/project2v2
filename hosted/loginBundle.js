@@ -118,6 +118,13 @@ var setup = function setup(csrf) {
     });
 
     createLoginWindow(csrf);
+    // addPlayerstoServer();
+};
+
+var addPlayerstoServer = function addPlayerstoServer() {
+    sendAjax('POST', '/maker', null, function (data) {
+        console.log(data.Player);
+    });
 };
 
 var getToken = function getToken() {
@@ -129,6 +136,7 @@ var getToken = function getToken() {
 // let socket = io();
 
 $(document).ready(function () {
+
     getToken();
 });
 'use strict';

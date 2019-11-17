@@ -1,5 +1,6 @@
 const socket = io();
 let submitted = false;
+let user ='test';
 // let currentUser = req.session.account.username;
 
 const handleText = (e) =>{
@@ -28,7 +29,7 @@ const handleRPS = (e) => {
   if(!submitted)
   {
       submitted = true;
-      socket.emit('player choice',"currentUser", userChoice);//change current user to the current userers name not sure how though 
+      socket.emit('player choice',user, userChoice);//change current user to the current userers name not sure how though 
       $('#info').html('Waiting for the other players decision');//need to get rid of this or put the text onto another line 
   }
   else $('#info').html('You can not change your decision');
@@ -40,17 +41,17 @@ const handleRPS = (e) => {
 
 const gameCheck = () => {
     socket.on('tie', function () {
-      $('#info').append('A tie!');
+      $('#info').append($('<li>').text('A tie!'));
       submitted = false;
   });
 
   socket.on('player 1 wins', function (user) {
-      $('#info').append(`${user[0].userName} wins!`);
+      $('#info').append($('<li>').text(`${user[0].userName} wins!`));
     submitted = false;
   });
 
   socket.on('player 2 wins', function (user) {
-  $('#info').append(`${user[1].userName} wins!`);
+  $('#info').append($('<li>').text(`${user[1].userName} wins!`));
   submitted = false;
 });
 
@@ -103,6 +104,16 @@ const setup = function(csrf) {
   ReactDOM.render(
     <RPSForm csrf={csrf}/>, document.querySelector('#RPS')
   )
+
+  loadPlayersFromServer();
+};
+
+const loadPlayersFromServer = () => {
+  console.log('got from server');
+  sendAjax('GET', '/getUsername', null, (data) => {
+      user = data
+      console.log(user);
+  });
 };
 
 const getToken = () => {
