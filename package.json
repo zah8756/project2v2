@@ -12,7 +12,7 @@
     "buildAppBundle": "babel ./client/app ./client/helper --presets react --out-file ./hosted/bundle.js",
     "buildMoneyBundle": "babel ./client/mApp ./client/helper --presets react --out-file ./hosted/moneyBundle.js",
     "buildGameBundle": "babel ./client/game ./client/helper --presets react --out-file ./hosted/gameBundle.js",
-    "buildPassCBundle": "babel ./client/paswordChange ./client/helper --presets react --out-file ./hosted/passBundle.js " ,
+    "buildPassCBundle": "babel ./client/paswordChange ./client/helper --presets react --out-file ./hosted/passBundle.js ",
     "build": "npm run buildLoginBundle && npm run buildAppBundle && npm run buildMoneyBundle && npm run buildGameBundle && npm run buildPassCBundle",
     "watchLoginBundle": "babel --watch ./client/login ./client/helper --presets react --out-file ./hosted/loginBundle.js",
     "watchAppBundle": "babel --watch ./client/app ./client/helper --presets react --out-file ./hosted/bundle.js",

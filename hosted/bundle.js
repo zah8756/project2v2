@@ -93,6 +93,13 @@ var PlayerList = function PlayerList(props) {
                 ' Losses: ',
                 player.losses,
                 ' '
+            ),
+            React.createElement(
+                'h3',
+                { className: 'playerMoney' },
+                ' Money: ',
+                player.money,
+                ' '
             )
         );
     });

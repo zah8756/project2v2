@@ -53,10 +53,17 @@ const getPlayer = (request, response) => {
 const addMoney = (request, response) => {
   const req = request;
   const res = response;
-  console.log(req.body.playerMoney);
 
-  return Player.PlayerModel.update(req.session.account._id,
-    { $set: { money: req.body.playerMoney } },
+  // const filter = { name: req.session.account.username };
+  // const update = { money: 400 };
+  // const test = Player.PlayerModel.findOneAndUpdate(filter, update, {
+  //   new: true,
+  // });
+  // console.log(test);
+
+
+  return Player.PlayerModel.update(req.session.account.name,
+    { $set: { money: 400 } },
     {}, (errors) => {
       if (errors) {
         return res.status(500).json({ error: 'unable to change money' });

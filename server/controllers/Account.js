@@ -18,6 +18,10 @@ const moneyPage = (req, res) => {
   res.render('money');
 };
 
+const missingPage = (req, res) => {
+  res.render('404', { csrfToken: req.csrfToken() });
+};
+
 // const signupPage = (req, res) => {
 //   res.render('signup', { csrfToken: req.csrfToken() });
 // };
@@ -162,6 +166,7 @@ module.exports.logout = logout;
 module.exports.gamePage = gamePage;
 module.exports.changePassword = changePassword;
 module.exports.passPage = passPage;
+module.exports.missingPage = missingPage;
 // module.exports.signupPage = signupPage;
 module.exports.signup = signup;
 module.exports.getToken = getToken;

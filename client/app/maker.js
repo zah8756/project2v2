@@ -55,6 +55,7 @@ const PlayerList = function(props) {
                 <h3 className='playerName'> Name: {player.name} </h3>
                 <h3 className='playerAge'> Wins: {player.wins} </h3>
                 <h3 className='playerLevel'> Losses: {player.losses} </h3>
+                <h3 className='playerMoney'> Money: {player.money} </h3>
             </div>
         );
     });
