@@ -10,19 +10,19 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <link rel="shortcut icon" href="/assets/img/Rock.svg"/>
-  <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
+  <link rel="stylesheet" type="text/css" href="/assets/globalText.css"/>
 </head>
-<body>
+<body> 
   <nav><a href="/login"><img id="logo" src="/assets/img/RPS.png" alt="face logo"/></a>
-    <section id="notFound">
-      <h1>Page Not Found</h1>
-      <img id="runningGIF" src="https://thumbs.gfycat.com/RegalAssuredGossamerwingedbutterfly-size_restricted.gif" alt="404 running gif"/>
-      <p>GIF by Alex Sears</p>
-    </section>
+    <div class="navlink"><a href="/logout">Log out</a></div>
   </nav>
+    <ul id="messages"></ul>
+    <section id="sender"></section> 
+</div>
+</div>
   <div id="playerMessage"><img id="speech" src="/assets/img/bubleText.jpg" alt="speech box"/>
-    <h3><span id="errorMessage"></span></h3><img id="player" src="assets/img/hand.png" alt="handy"/>
+    <h3><span id="errorMessage">Wrong username or password</span></h3><img id="player" src="assets/img/hand.png" alt="handy"/>
   </div>
-  <script src="/assets/bundle.js"></script>
+<script src="/assets/gameBundle.js"></script>
 </body>
 </html>

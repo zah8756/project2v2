@@ -1,0 +1,23 @@
+#content{
+    margin-top:20%;
+}
+
+#changeForm{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    max-width: 20%;
+    margin: 0 auto;
+    top:50px;
+}
+
+label{
+    font-size: 20px;
+}
+
+input {
+    background-color: #801616;
+    color: white;
+    border-radius: 10px;
+    border-color: #BF2121;
+}

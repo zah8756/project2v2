@@ -45,13 +45,6 @@ const ChangeWindow = (props) => {
     );
 };
 
-// const createChangeWindow = (csrf) => {
-//     ReactDOM.render(
-//         <ChangeWindow csrf={csrf} />,
-//         document.querySelector('#content')
-//     );
-// };
-
 const setup = (csrf) => {
     ReactDOM.render(
         <ChangeWindow csrf={csrf} />,
@@ -59,14 +52,11 @@ const setup = (csrf) => {
     );
 };
 
-
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
         setup(result.csrfToken);
     });
 };
-
-// let socket = io();
 
 $(document).ready(function() {
     getToken();

@@ -1,30 +1,5 @@
 'use strict';
 
-// const handlePlayer = (e) => {
-//     e.preventDefault();
-
-//     $('#playerMessage').animate({width:'hide'}, 350);
-
-//     sendAjax('POST', $('#playerForm').attr('action'), $('#playerForm').serialize(), function() {
-//         loadPlayersFromServer();
-//     });
-
-//     return false;
-// };
-
-var handleUpdate = function handleUpdate(e) {
-    e.preventDefault();
-
-    console.log($('#updateB').serialize());
-
-    sendAjax('POST', $('#updateB').attr('action'), '_csrf=' + document.querySelector('#csrftoken').value, function () {
-        handleError('UPDATE');
-        loadPlayersFromServer();
-    });
-
-    return false;
-};
-
 var PlayerForm = function PlayerForm(props) {
     return React.createElement(
         'form',
@@ -36,7 +11,7 @@ var PlayerForm = function PlayerForm(props) {
         React.createElement('input', { id: 'csrftoken', type: 'hidden', name: '_csrf', value: props.csrf })
     );
 };
-
+//creates a new player only if no other player ahs been created 
 var PlayerList = function PlayerList(props) {
     if (props.players.length === 0) {
         return React.createElement(
@@ -45,7 +20,7 @@ var PlayerList = function PlayerList(props) {
             React.createElement(
                 'h3',
                 { className: 'emptyplayer' },
-                'No Players Yet'
+                'No Players loaded Yet'
             )
         );
     }
@@ -54,7 +29,7 @@ var PlayerList = function PlayerList(props) {
         return React.createElement(
             'div',
             { key: player._id, className: 'player' },
-            React.createElement('img', { src: '/assets/img/domoFace.jpeg', alt: 'player face', className: 'domoFace' }),
+            React.createElement('img', { src: '/assets/img/fistBump.png', alt: 'fistBump', className: 'fistBump' }),
             React.createElement(
                 'h3',
                 { className: 'playerName' },
@@ -75,13 +50,6 @@ var PlayerList = function PlayerList(props) {
                 ' Losses: ',
                 player.losses,
                 ' '
-            ),
-            React.createElement(
-                'h3',
-                { className: 'playerMoney' },
-                ' Money: ',
-                player.money,
-                ' '
             )
         );
     });
@@ -90,20 +58,6 @@ var PlayerList = function PlayerList(props) {
         'div',
         { className: 'playerList' },
         playerNodes
-    );
-};
-
-var UpdateB = function UpdateB(props) {
-    return React.createElement(
-        'form',
-        { id: 'updateB',
-            onSubmit: handleUpdate,
-            name: 'updateB',
-            action: '/update',
-            method: 'POST',
-            className: 'updateB' },
-        React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
-        React.createElement('input', { className: 'update', type: 'submit', value: 'Make Player' })
     );
 };
 
@@ -116,13 +70,10 @@ var loadPlayersFromServer = function loadPlayersFromServer() {
 var setup = function setup(csrf) {
     ReactDOM.render(React.createElement(PlayerForm, { csrf: csrf }), document.querySelector('#makePlayer'));
 
-    ReactDOM.render(React.createElement(UpdateB, { csrf: csrf }), document.querySelector('#update'));
-
     ReactDOM.render(React.createElement(PlayerList, { players: [] }), document.querySelector('#players'));
 
-    console.log(csrf);
+    //loads our player on startup    
     sendAjax('GET', '/getPlayer', '_csrf=' + document.querySelector('#csrftoken').value, function (data) {
-        console.log(data);
         if (data.players.length == 0) {
             sendAjax('POST', '/maker', '_csrf=' + document.querySelector('#csrftoken').value, function () {
                 loadPlayersFromServer();

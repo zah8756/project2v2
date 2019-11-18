@@ -3,32 +3,30 @@
 var socket = io();
 var submitted = false;
 var name = 'test';
-// let currentUser = req.session.account.username;
-
+//reads our text then using socket sends it to the server to be displayed 
 var handleText = function handleText(e) {
   e.preventDefault(); // prevents page reloading
   console.log('clap');
   socket.emit('chat message', $('#m').val());
   $('#m').val('');
 
-  // sok();
   return false;
 };
-
+//connects us to our room would have done more with room but ran out of time 
 var sok = function sok() {
   socket.on('connect', function () {
-    // Connected, let's sign-up for to receive messages for this room
     socket.emit('room', 'test');
   });
 
   socket.on('chat message', function (msg) {
     console.log('activated');
 
-    $('#messages').append($('<li>').text(name + ':' + msg));
+    $('#messages').append($('<li>').text(name + ': ' + msg));
     window.scrollTo(0, document.body.scrollHeight);
   });
 };
 
+// chekcs what option we picked and send it to ther server then we get back the result in game check 
 var handleRPS = function handleRPS(e) {
   e.preventDefault();
   console.log("activated");
@@ -42,6 +40,7 @@ var handleRPS = function handleRPS(e) {
   return false;
 };
 
+//using the result of the game we determine the outcome
 var gameCheck = function gameCheck() {
   socket.on('tie', function () {
     $('#info').append($('<li>').text('A tie!'));
@@ -79,6 +78,8 @@ var gameCheck = function gameCheck() {
   });
 };
 
+//create the forms for our rps game and our global text
+
 var GameForm = function GameForm(props) {
   return React.createElement(
     'form',
@@ -89,7 +90,7 @@ var GameForm = function GameForm(props) {
       method: 'POST' },
     React.createElement('input', { id: 'm', type: 'text', autocomplete: 'off' }),
     React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
-    React.createElement('input', { className: 'buttonSend', type: 'submit', value: 'Send' })
+    React.createElement('input', { id: 'sButton', className: 'buttonSend', type: 'submit', value: 'Send' })
   );
 };
 
@@ -105,43 +106,50 @@ var RPSForm = function RPSForm(props) {
     React.createElement(
       'label',
       { htmlFor: 'rock' },
-      'Rock'
+      React.createElement('img', { id: 'rock', src: '/assets/img/cRock.png', alt: 'rock logo' })
     ),
     React.createElement('br', null),
     React.createElement('input', { id: 'paper', type: 'radio', name: 'choice', value: 'paper' }),
     React.createElement(
       'label',
       { htmlFor: 'paper' },
-      'Paper'
+      React.createElement('img', { id: 'paper', src: '/assets/img/paper.png', alt: 'paper logo' })
     ),
     React.createElement('br', null),
     React.createElement('input', { id: 'scissors', type: 'radio', name: 'choice', value: 'scissors' }),
     React.createElement(
       'label',
       { htmlFor: 'scissors' },
-      'Scissors'
+      React.createElement('img', { id: 'scissors', src: '/assets/img/scissors.png', alt: 'scissors logo' })
     ),
     React.createElement('br', null),
     React.createElement('input', { id: 'csrftoken', type: 'hidden', name: '_csrf', value: props.csrf }),
-    React.createElement('input', { className: 'gameButton', type: 'submit', value: 'make decision' })
+    React.createElement('br', null),
+    React.createElement('input', { className: 'gameButton', id: 'submitButton', type: 'submit', value: 'make decision' })
   );
 };
-
+//incriments whoever wins win value and updaLosses does the same with losses 
 var updateWins = function updateWins() {
-  sendAjax('POST', '/update', '_csrf=' + document.querySelector('#csrftoken').value + '&playerN=' + name, function () {
-    handleError('UPDATE');
-  });
+  sendAjax('POST', '/update', '_csrf=' + document.querySelector('#csrftoken').value + '&playerN=' + name, function () {});
 };
 
 var updateLosses = function updateLosses() {
-  sendAjax('POST', '/updateLosses', '_csrf=' + document.querySelector('#csrftoken').value + '&playerN=' + name, function () {
-    handleError('UPDATE');
-  });
+  sendAjax('POST', '/updateLosses', '_csrf=' + document.querySelector('#csrftoken').value + '&playerN=' + name, function () {});
+};
+var ifActive = function ifActive(csrf) {
+  if (document.querySelector('#sender')) {
+    ReactDOM.render(React.createElement(GameForm, { csrf: csrf }), document.querySelector('#sender'));
+  }
+};
+var ifRPS = function ifRPS(csrf) {
+  if (document.querySelector('#RPS')) {
+    ReactDOM.render(React.createElement(RPSForm, { csrf: csrf }), document.querySelector('#RPS'));
+  }
 };
 
 var setup = function setup(csrf) {
-  ReactDOM.render(React.createElement(GameForm, { csrf: csrf }), document.querySelector('#sender'));
-  ReactDOM.render(React.createElement(RPSForm, { csrf: csrf }), document.querySelector('#RPS'));
+  ifActive(csrf);
+  ifRPS(csrf);
 
   loadPlayersFromServer();
 };

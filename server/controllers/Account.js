@@ -2,6 +2,7 @@ const models = require('../models');
 
 const Account = models.Account;
 
+// links us to most if not all of our pages
 const loginPage = (req, res) => {
   res.render('login', { csrfToken: req.csrfToken() });
 };
@@ -14,6 +15,10 @@ const passPage = (req, res) => {
   res.render('passChange');
 };
 
+const gChat = (req, res) => {
+  res.render('globalChat');
+};
+
 const moneyPage = (req, res) => {
   res.render('money', { csrfToken: req.csrfToken() });
 };
@@ -21,10 +26,6 @@ const moneyPage = (req, res) => {
 const missingPage = (req, res) => {
   res.render('404', { csrfToken: req.csrfToken() });
 };
-
-// const signupPage = (req, res) => {
-//   res.render('signup', { csrfToken: req.csrfToken() });
-// };
 
 const logout = (req, res) => {
   req.session.destroy();
@@ -101,7 +102,7 @@ const signup = (request, response) => {
     });
   });
 };
-
+// changes our password to a new one
 const changePassword = (request, response) => {
   const req = request;
   const res = response;
@@ -110,6 +111,7 @@ const changePassword = (request, response) => {
   req.body.newPass1 = `${req.body.newPass1}`;
   req.body.newPass2 = `${req.body.newPass2}`;
 
+  // chekc our passwword to see if its valid and not the old password
   if (!req.body.oldPass || !req.body.newPass1 || !req.body.newPass2) {
     return res.status(400).json({ error: 'All fields are required' });
   }
@@ -127,7 +129,7 @@ const changePassword = (request, response) => {
     if (err || !password) {
       return res.status(401).json({ error: 'old password is incorrect' });
     }
-
+    // creates a new password and a new hash
     return Account.AccountModel.generateHash(req.body.newPass1, (salt, hash) => {
       const findUser = {
         username: req.session.account.username,
@@ -143,6 +145,7 @@ const changePassword = (request, response) => {
   }
 );
 };
+// reffrence to our username
 const getUsername = (request, response) => {
   const req = request;
   const res = response;
@@ -151,49 +154,7 @@ const getUsername = (request, response) => {
   res.json(username);
 };
 
-const addMoney = (request, response) => {
-  const req = request;
-  const res = response;
-
-  const findUser = {
-    username: req.session.account.username,
-  };
-
-  return Account.AccountModel.update(findUser,
-    { $inc: { money: 55 } }, { }, (errors) => {
-      console.log(errors);
-      if (errors) {
-        return res.status(500).json({ error: 'unable to change money' });
-      }
-      console.log(req.session.account);
-      return res.status(200).json({ redirect: '/maker' });
-    });
-
-  // console.log(req.session.account);
-  // const filter = { username: req.session.account.username };
-  // const update = { money: 20 };
-  // const test = Account.AccountModel.findOneAndUpdate(filter, update);
-  // console.log(Account);
-  // return test;
-  // const findUser = {
-  //   username: req.session.account.username,
-  // };
-
-  // req.body.playerMoney = `${req.body.playerMoney}`;
-
-  // console.log(req.session.account);
-  // return Account.AccountModel.update(findUser,
-  //  { money: 20 },
-  //   {}, (errors) => {
-  //     console.log(errors);
-  //     if (errors) {
-  //       return res.status(500).json({ error: 'unable to change money' });
-  //     }
-  //     console.log(req.session.account);
-  //     return res.status(200).json({ redirect: '/maker' });
-  //   });
-};
-
+// creates csrf tokens for our clinet side to use
 const getToken = (request, response) => {
   const req = request;
   const res = response;
@@ -204,7 +165,8 @@ const getToken = (request, response) => {
 
   res.json(csrfJSON);
 };
-module.exports.addMoney = addMoney;
+
+module.exports.globalChat = gChat;
 module.exports.getUsername = getUsername;
 module.exports.moneyPage = moneyPage;
 module.exports.loginPage = loginPage;
@@ -214,6 +176,5 @@ module.exports.gamePage = gamePage;
 module.exports.changePassword = changePassword;
 module.exports.passPage = passPage;
 module.exports.missingPage = missingPage;
-// module.exports.signupPage = signupPage;
 module.exports.signup = signup;
 module.exports.getToken = getToken;

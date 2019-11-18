@@ -7,7 +7,7 @@ let PlayerModel = {};
 // mongoose.types.objectID is a function that converts string ID to real mongo ID
 const convertId = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
-
+// creates our player shcema
 const PlayerSchema = new mongoose.Schema({
   name: {
     type: String,

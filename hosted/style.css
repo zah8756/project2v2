@@ -4,20 +4,32 @@ html, body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    background-color:#803C3C ;
+    font-family: 'Roboto', sans-serif;
+
 }
 
 #logo {
     height: 40px;
     width: 40;
-    padding-top: 5px;
+    padding: 3px 3px 3px 3px;
+    margin-left:2px; 
+    margin-top: 2px;
     float:left;
-    border-radius: 8px;
+    border-radius: 10px;
+    background-color: #FF7878;
+}
+
+#logo:hover {
+    transition: background-color 0.8s ease;
+    background-color: rgb(255, 71, 71);
 }
 
 nav {
     width: 100%;
     height: 50px;
-    background-color: #55acee;
+    background-color: #BF2121;
+    border-bottom: 3px solid #801616;
 }
 
 nav:nth-child(1) {
@@ -26,36 +38,25 @@ nav:nth-child(1) {
 
 .navlink {
     padding: 5px;
-    padding-top: 12px;
+    padding-top: 15px;
     padding-left: 20px;
     color: white;
     font-size: 1.3em;
-    float: left;
+    float: right;
 }
 
-.navlink a, .navlink a:link, .navlink a:visited, .navlink a:hover, .navlink a:active {
-    color: white;
+.navlink a, .navlink a:link, .navlink a:visited, .navlink a:hover, .navlink a:active,.formSubmit {
+    color: black;
     text-decoration: none;
     padding: 5px;
     border-radius: 4px;
-    background-color: #55acee;
+    background-color: #FF7878;
     transition: background-color 0.4s ease;
 }
 
-.navlink a:hover {
+.navlink a:hover, .formSubmit:hover {
     transition: background-color 0.8s ease;
-    background-color: #66bdff;
-}
-
-.playerForm {
-    border: 2px solid #338acc;
-    height: 35px;
-    width: 700px;
-    margin-top:0px;
-    padding-top:10px;
-    background-color: #55acee;
-    border-bottom-right-radius: 4px;
-    border-top-right-radius: 4px;
+    background-color: rgb(255, 71, 71);
 }
 
 .playerForm label {
@@ -117,34 +118,28 @@ nav:nth-child(1) {
     margin: 0 auto;
     margin-top: 14px;
     font-size: 1.2em;
-    width: 100px;
-    background-color: #55acee;
     border-radius: 2px;
-    border-color: #66acee;
     padding: 3px 0px;
-    color: white;
     text-decoration: none;
+    border-color: #BF2121;
+    background-color: #FF7878;
 }
 
 .formSubmit:link, .formSubmit:visited, .formSubmit:hover, .formSubmit:active {
     color: white;
 }
-
-.formSubmit:hover {
-    transition: background-color 0.4s ease;
-    background-color: #338acc;
-}
-
 #user, #pass, #pass2 {
     text-align: center;
     font-size: 1.1em;
     width: 180px;
     border-radius: 6px;
+    background-color: #801616;
+    color: white;
+    border-color: #BF2121;
 }
 
 #user:focus, #pass:focus, #pass2:focus {
     outline: none;
-    box-shadow: 0px 0px 1px 1px #55acee;
 }
 
 #playerMessage {
@@ -192,7 +187,6 @@ nav:nth-child(1) {
 #players {
     width: 40%;
     min-width: 400px;
-    border: 2px solid #55acee;
     border-radius: 4px;
     margin: 0 auto;
     margin-top: 100px;
@@ -203,29 +197,32 @@ nav:nth-child(1) {
     margin: 0 auto;
     margin-top: 2px;
     margin-bottom: 2px;
-    border: 2px solid #55acee;
+    border: 2px solid #801616;
     border-radius: 4px;
-    background-color: #55acee;
+    background-color: rgb(160, 29, 62);
     padding: 10px;
     min-height:60px;
     overflow: hidden;
+    text-align: center;
+    font-size: 25px;
+
 }
+
 
 .player:hover {
     transition: border-color 0.2s ease-out;
     border-color: rgba(255,255,255, 0.8);
     transition: background-color 2.6s ease-out;
-    background-color: #66bfff;
+    background-color: #BF2121;
 }
 
-img.domoFace {
-    margin-left: 25px;
-    margin-right: 10px;
-    height: 50px;
-    width: 50px;
-    border-radius: 4px;
+img.fistBump {
+    height: 83px;
+    width: 89px;
+    border-radius: 20px;
     margin-top:10px;
-    float:left;
+    background-color: rgba(255, 255, 255, 0.795);
+    border: 2px solid #801616;
 }
 
 h3.emptyDomo {
@@ -259,4 +256,42 @@ h3.domoAge {
 
 .palyer:last-child {
     margin-bottom:10px;
+}
+
+.ad{
+    display:flex;
+    width: 130px;
+    height: 100px;
+    background-color:rgb(16, 16, 231); 
+    border: 2px solid rgb(13, 13, 134);
+    font-weight: bold;
+    font-size: 3em;
+    min-height: 80%
+}
+#ad1{
+    /* transform: rotate(90deg);
+	transform-origin: left top 0; */
+    float: left;
+}
+#ad1 p{
+    transform: rotate(90deg);
+    transform-origin: left top 0; 
+    margin-left: 70%;
+    margin-top:150%; 
+    padding-right: 5px;
+    white-space: nowrap;
+
+}
+
+#ad2{
+    /* transform: rotate(180deg);
+	transform-origin: left top 0; */
+    float: right;
+}
+#ad2 p{
+    transform: rotate(270deg);
+    transform-origin: left top 0; 
+    margin-top:11em; 
+    padding-top: 50px;
+    white-space: nowrap;
 }

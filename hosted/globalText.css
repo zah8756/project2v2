@@ -10,66 +10,42 @@ body {
 }
 
 form { 
-    /* display: flex; */
+
     padding: 3px; 
     position: fixed; 
     bottom: 0; 
-    left:45%;
-    text-align: center
-
-}
-
-#info{
-    list-style-type: none; 
-    background-color: rgb(212, 211, 211);
-    width: 3em;
-    min-width: 50%;
-    min-height: 20%;
-    font-size: 20px;
-    margin: 0 auto;
-    text-align: center;
-    margin-top: 20px;
-    font-size: 30px;
-    padding-top:20px; 
-    border-radius: 10px;
-    border: 2px solid #801616;
+    width: 111%; 
 }
 
 form input { 
     border: 0; 
     padding: 10px;
-      margin: 0 auto;
-     
+     width: 90%;
+      margin-right: .5%; 
 }
 
-#submitButton { 
-
+#sButton { 
     color: black;
     text-decoration: none;
-    padding: 5px;
-    border-radius: 4px;
     background-color: #FF7878;
     transition: background-color 0.4s ease;
+    font-size: 20px;
 }
 
-#submitButton:hover{
+#sButton:hover{
     transition: background-color 0.8s ease;
     background-color: rgb(255, 71, 71);
 }
 
-
-
-form img{
-    width: 50px;
-    height: 50px;
-    margin-left: 10px;
-    margin-top: 10px; 
+#messageForm{
+    border: 2px solid #801616;
 }
 
 #messages {
     list-style-type: none; 
     margin: 0; 
     padding: 0; 
+    font-size: 20px;
 }
 
 #messages li { 
@@ -80,5 +56,5 @@ form img{
     background: #eee; 
 }
 #messages li:nth-child(even) { 
-    background: rgb(177, 175, 175); 
+    background: rgb(194, 194, 194); 
 }

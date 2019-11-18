@@ -8,6 +8,8 @@ const iterations = 10000;
 const saltLength = 64;
 const keyLength = 64;
 
+// sets the blueprint for our account schema
+
 const AccountSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -41,6 +43,7 @@ AccountSchema.statics.toAPI = doc => ({
   money: doc.money,
 });
 
+// checks to se if our password is valid
 const validatePassword = (doc, password, callback) => {
   const pass = doc.password;
 

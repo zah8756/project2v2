@@ -11,6 +11,7 @@ const makerPage = (req, res) => {
   });
 };
 
+// creates a new player
 const makePlayer = (req, res) => {
   console.log('created');
   const playerData = {
@@ -36,6 +37,8 @@ const makePlayer = (req, res) => {
   return playerPromise;
 };
 
+// gets a list of all players
+
 const getPlayer = (request, response) => {
   const req = request;
   const res = response;
@@ -49,15 +52,11 @@ const getPlayer = (request, response) => {
   });
 };
 
+
+// checks who won the round then gives that player a point in their win property
 const updateWins = (request, response) => {
   const req = request;
   const res = response;
-
-  // return Player.PlayerModel.findByOwner(req.session.account._id, (err, docs) => {
-  //   if (err) {
-  //     console.log(err);
-  //     return res.status(400).json({ error: 'An error occurred' });
-  //   }
 
   const namer = { name: req.body.playerN };
   return Player.PlayerModel.update(namer, { $inc: { wins: 1 } }, {}, (error) => {
@@ -67,18 +66,12 @@ const updateWins = (request, response) => {
     }
     return res.status(200).json({ error: 'wins have changed' });
   });
-//   });
 };
 
+// checks to see who lost then changes incriments thier losses propery by 1
 const updateLosses = (request, response) => {
   const req = request;
   const res = response;
-
-  // return Player.PlayerModel.findByOwner(req.session.account._id, (err, docs) => {
-  //   if (err) {
-  //     console.log(err);
-  //     return res.status(400).json({ error: 'An error occurred' });
-  //   }
 
   const namer = { name: req.body.playerN };
   return Player.PlayerModel.update(namer, { $inc: { losses: 1 } }, {}, (error) => {
@@ -88,7 +81,6 @@ const updateLosses = (request, response) => {
     }
     return res.status(200).json({ error: 'wins have changed' });
   });
-//   });
 };
 
 const getUserList = (request, response) => {

@@ -5,7 +5,7 @@ const handleLogin = (e) => {
     $("#playerMessage").animate({width: 'hide'}, 350);//change
 
     if($("#user").val() == '' || $("#pass").val() == '') {
-        handleError("RAWR! Username or password is empty!");
+        handleError("Username or password is empty!");
         return false;
     }
 
@@ -22,14 +22,15 @@ const handleSignup = (e) => {
     $("#playerMessage").animate({width: 'hide'}, 350);//change
 
     if($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
-        handleError("RAWR! All fields are required.");
+        handleError("All fields are required.");
         return false;
     }
 
     if($('#pass').val() !== $('#pass2').val()) {
-        handleError("RAWR! Passwords do not match.");
+        handleError("Passwords do not match.");
         return false;
     }
+    //checks to see if the password is valid then calls the signup method form the server
 
     sendAjax('POST', $("#signupForm").attr("action"), $("#signupForm").serialize(),redirect);
 
@@ -103,13 +104,6 @@ const setup = (csrf) => {
     });
 
     createLoginWindow(csrf);
-    // addPlayerstoServer();
-};
-
-const addPlayerstoServer = () => {
-    sendAjax('POST', '/maker', null, (data) => {
-        console.log(data.Player)
-    });
 };
 
 const getToken = () => {
@@ -117,8 +111,6 @@ const getToken = () => {
         setup(result.csrfToken);
     });
 };
-
-// let socket = io();
 
 $(document).ready(function() {
     

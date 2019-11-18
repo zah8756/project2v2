@@ -58,13 +58,6 @@ var ChangeWindow = function ChangeWindow(props) {
     );
 };
 
-// const createChangeWindow = (csrf) => {
-//     ReactDOM.render(
-//         <ChangeWindow csrf={csrf} />,
-//         document.querySelector('#content')
-//     );
-// };
-
 var setup = function setup(csrf) {
     ReactDOM.render(React.createElement(ChangeWindow, { csrf: csrf }), document.querySelector('#content'));
 };
@@ -74,8 +67,6 @@ var getToken = function getToken() {
         setup(result.csrfToken);
     });
 };
-
-// let socket = io();
 
 $(document).ready(function () {
     getToken();

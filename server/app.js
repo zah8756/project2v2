@@ -21,6 +21,7 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 const dbURL = process.env.MONGODB_URI || 'mongodb://localhost/RPS';
 
+// connects us to the moongoose server
 mongoose.connect(dbURL, (err) => {
   if (err) {
     console.log('Could not connect to database');
@@ -28,6 +29,7 @@ mongoose.connect(dbURL, (err) => {
   }
 });
 
+// conects our socket from the client side to the server side
 io.on('connection', (socket) => {
   console.log('a user connected');
   socket.on('disconnect', () => {
@@ -44,6 +46,7 @@ io.on('connection', (socket) => {
       console.log(`message: ${msg}`);
     });
 
+    // I got this logic code from https://github.com/Patrick-Batenburg/nodejs-socket-io-rock-paper-scissor-game
     socket.on('player choice', (playerName, choice) => {
       users.push({ userName: playerName, playerDecision: choice });
       if (users.length === 2) {
@@ -68,7 +71,7 @@ io.on('connection', (socket) => {
   });
 });
 
-
+// connects our server to a redis server to store information
 let redisURL = {
   hostname: 'redis-10450.c13.us-east-1-3.ec2.cloud.redislabs.com',
   port: '10450',
@@ -85,9 +88,8 @@ if (process.env.REDISCLOUD_URL) {
 const router = require('./router.js');
 
 app.use('/assets', express.static(path.resolve(`${__dirname}/../hosted/`)));
-app.use(favicon(`${__dirname}/../hosted/img/favicon.png`));
+app.use(favicon(`${__dirname}/../hosted/img/Rock.svg`));
 app.use(compression());
-// app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
@@ -119,6 +121,7 @@ app.use((err, req, res, next) => {
   return false;
 });
 
+// connects us to our router
 router(app);
 
 http.listen(port, (err) => {
@@ -128,5 +131,3 @@ http.listen(port, (err) => {
   console.log(`Listening on port ${port}`);
 });
 
-
-module.exports.io = io;
