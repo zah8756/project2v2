@@ -15,6 +15,15 @@ const handlePlayer = (e) => {
     return false;
 };
 
+const handleUpdate = (e) => {
+    e.preventDefault();
+
+    sendAjax('POST', $('#updateB').attr('action'), $('#updateB').serialize(), () => {
+        handleError('UPDATE');
+    });
+
+    return false;
+};
 
 
 const PlayerForm = (props) => {
@@ -67,6 +76,20 @@ const PlayerList = function(props) {
     );
 };
 
+const UpdateB = (props) =>{
+    return(
+    <form id='updateB'
+    onSubmit={handleUpdate}
+    name='updateB'
+    action='/update'
+    method='POST'
+    className='updateB' >
+        <input type='hidden' name='_csrf' value={props.csrf} />
+        <input className='update' type='submit' value='Make Player' />
+    </form>
+    );
+}
+
 const loadPlayersFromServer = () => {
     sendAjax('GET', '/getPlayer', null, (data) => {
         ReactDOM.render(
@@ -78,6 +101,10 @@ const loadPlayersFromServer = () => {
 const setup = function(csrf) {
     ReactDOM.render(
         <PlayerForm csrf={csrf}/>, document.querySelector('#makePlayer')
+    );
+
+    ReactDOM.render(
+        <UpdateB csrf={csrf}/>, document.querySelector('#update')
     );
 
     ReactDOM.render(

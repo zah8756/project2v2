@@ -11,12 +11,13 @@ const router = (app) => {
   app.get('/getUsername', mid.requiresSecure, controllers.Account.getUsername);
   app.post('/changePassword', mid.requiresSecure, mid.requiresLogin
   , controllers.Account.changePassword);
-  app.post('/addMoney', mid.requiresSecure, mid.requiresLogin, controllers.Player.addMoney);
+  app.post('/addMoney', mid.requiresSecure, mid.requiresLogin, controllers.Account.addMoney);
   app.get('/passPage', mid.requiresSecure, controllers.Account.passPage);
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
-  //app.post('/chat', mid.requiresLogin, controllers.Game.chat);
+  // app.post('/chat', mid.requiresLogin, controllers.Game.chat);
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
+  app.post('/update', mid.requiresSecure, controllers.Player.update);
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
   app.get('/maker', mid.requiresLogin, controllers.Player.makerPage);// change
   app.post('/maker', mid.requiresLogin, controllers.Player.make);// change

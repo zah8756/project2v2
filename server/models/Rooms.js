@@ -5,7 +5,7 @@ const roomId = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
 
 const _ = require('underscore');
-let roomModel = {};
+const roomModel = {};
 
 const RoomSchema = new mongoose.Schema({
   name: {

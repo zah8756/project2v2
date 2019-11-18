@@ -90,7 +90,8 @@
 // });
 
 const handlePlayer = (e) => {
-    
+    e.preventDefault(); 
+
     $('#playerMessage').animate({width:'hide'}, 350);
 
     if($('#playerName').val() == '' || $('#playerWins').val() == '' || $('#playerLosses').val() == '' || $('#playerMoney').val() == '') {

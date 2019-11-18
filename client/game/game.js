@@ -14,6 +14,11 @@ const handleText = (e) =>{
 }
 
 const sok = () => {
+  socket.on('connect', function() {
+   // Connected, let's sign-up for to receive messages for this room
+   socket.emit('room', 'test');
+  });
+
   socket.on ('chat message', (msg) => {
     console.log('activated');
     
@@ -22,6 +27,8 @@ const sok = () => {
   });
 }
 
+
+
 const handleRPS = (e) => {
   e.preventDefault();
   console.log ("activated");
@@ -29,8 +36,8 @@ const handleRPS = (e) => {
   if(!submitted)
   {
       submitted = true;
-      socket.emit('player choice',user, userChoice);//change current user to the current userers name not sure how though 
-      $('#info').html('Waiting for the other players decision');//need to get rid of this or put the text onto another line 
+      socket.emit('player choice',user, userChoice);
+      $('#info').html('Waiting for the other players decision');
   }
   else $('#info').html('You can not change your decision');
 

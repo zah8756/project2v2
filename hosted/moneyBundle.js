@@ -92,6 +92,7 @@
 // });
 
 var handlePlayer = function handlePlayer(e) {
+    e.preventDefault();
 
     $('#playerMessage').animate({ width: 'hide' }, 350);
 

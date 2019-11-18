@@ -38,6 +38,7 @@ AccountSchema.statics.toAPI = doc => ({
   // _id is built into your mongo document and is guaranteed to be unique
   username: doc.username,
   _id: doc._id,
+  money: doc.money,
 });
 
 const validatePassword = (doc, password, callback) => {

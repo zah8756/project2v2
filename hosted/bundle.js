@@ -17,6 +17,16 @@ var handlePlayer = function handlePlayer(e) {
     return false;
 };
 
+var handleUpdate = function handleUpdate(e) {
+    e.preventDefault();
+
+    sendAjax('POST', $('#updateB').attr('action'), $('#updateB').serialize(), function () {
+        handleError('UPDATE');
+    });
+
+    return false;
+};
+
 var PlayerForm = function PlayerForm(props) {
     return React.createElement(
         'form',
@@ -111,6 +121,20 @@ var PlayerList = function PlayerList(props) {
     );
 };
 
+var UpdateB = function UpdateB(props) {
+    return React.createElement(
+        'form',
+        { id: 'updateB',
+            onSubmit: handleUpdate,
+            name: 'updateB',
+            action: '/update',
+            method: 'POST',
+            className: 'updateB' },
+        React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
+        React.createElement('input', { className: 'update', type: 'submit', value: 'Make Player' })
+    );
+};
+
 var loadPlayersFromServer = function loadPlayersFromServer() {
     sendAjax('GET', '/getPlayer', null, function (data) {
         ReactDOM.render(React.createElement(PlayerList, { players: data.players }), document.querySelector('#players'));
@@ -119,6 +143,8 @@ var loadPlayersFromServer = function loadPlayersFromServer() {
 
 var setup = function setup(csrf) {
     ReactDOM.render(React.createElement(PlayerForm, { csrf: csrf }), document.querySelector('#makePlayer'));
+
+    ReactDOM.render(React.createElement(UpdateB, { csrf: csrf }), document.querySelector('#update'));
 
     ReactDOM.render(React.createElement(PlayerList, { players: [] }), document.querySelector('#players'));
 

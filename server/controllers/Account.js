@@ -15,7 +15,7 @@ const passPage = (req, res) => {
 };
 
 const moneyPage = (req, res) => {
-  res.render('money');
+  res.render('money', { csrfToken: req.csrfToken() });
 };
 
 const missingPage = (req, res) => {
@@ -77,6 +77,7 @@ const signup = (request, response) => {
       username: req.body.username,
       salt,
       password: hash,
+      money: 0,
     };
 
 
@@ -144,8 +145,53 @@ const changePassword = (request, response) => {
 };
 const getUsername = (request, response) => {
   const req = request;
+  const res = response;
   const username = req.session.account.username;
-  return username;
+  console.log(username);
+  res.json(username);
+};
+
+const addMoney = (request, response) => {
+  const req = request;
+  const res = response;
+
+  const findUser = {
+    username: req.session.account.username,
+  };
+
+  return Account.AccountModel.update(findUser,
+    { $inc: { money: 55 } }, { }, (errors) => {
+      console.log(errors);
+      if (errors) {
+        return res.status(500).json({ error: 'unable to change money' });
+      }
+      console.log(req.session.account);
+      return res.status(200).json({ redirect: '/maker' });
+    });
+
+  // console.log(req.session.account);
+  // const filter = { username: req.session.account.username };
+  // const update = { money: 20 };
+  // const test = Account.AccountModel.findOneAndUpdate(filter, update);
+  // console.log(Account);
+  // return test;
+  // const findUser = {
+  //   username: req.session.account.username,
+  // };
+
+  // req.body.playerMoney = `${req.body.playerMoney}`;
+
+  // console.log(req.session.account);
+  // return Account.AccountModel.update(findUser,
+  //  { money: 20 },
+  //   {}, (errors) => {
+  //     console.log(errors);
+  //     if (errors) {
+  //       return res.status(500).json({ error: 'unable to change money' });
+  //     }
+  //     console.log(req.session.account);
+  //     return res.status(200).json({ redirect: '/maker' });
+  //   });
 };
 
 const getToken = (request, response) => {
@@ -158,6 +204,7 @@ const getToken = (request, response) => {
 
   res.json(csrfJSON);
 };
+module.exports.addMoney = addMoney;
 module.exports.getUsername = getUsername;
 module.exports.moneyPage = moneyPage;
 module.exports.loginPage = loginPage;
