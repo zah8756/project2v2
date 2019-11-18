@@ -52,14 +52,14 @@ const getPlayer = (request, response) => {
 const updateWins = (request, response) => {
   const req = request;
   const res = response;
-  console.log(req.playerN);
+
   // return Player.PlayerModel.findByOwner(req.session.account._id, (err, docs) => {
   //   if (err) {
   //     console.log(err);
   //     return res.status(400).json({ error: 'An error occurred' });
   //   }
 
-  const namer = { name: req.playerN };
+  const namer = { name: req.body.playerN };
   return Player.PlayerModel.update(namer, { $inc: { wins: 1 } }, {}, (error) => {
     if (error) {
       console.log(error);
