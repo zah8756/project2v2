@@ -56,6 +56,8 @@ var gameCheck = function gameCheck() {
     submitted = false;
     if (user[0].userName === name) {
       updateWins();
+    } else {
+      updateLosses();
     }
 
     setTimeout(function () {
@@ -68,6 +70,8 @@ var gameCheck = function gameCheck() {
     submitted = false;
     if (user[1].userName === name) {
       updateWins();
+    } else {
+      updateLosses();
     }
     setTimeout(function () {
       $('#info').html('Waiting for players input');
@@ -130,7 +134,7 @@ var updateWins = function updateWins() {
 };
 
 var updateLosses = function updateLosses() {
-  sendAjax('POST', '/updateLosses', '_csrf=' + document.querySelector('#csrftoken').value, function () {
+  sendAjax('POST', '/updateLosses', '_csrf=' + document.querySelector('#csrftoken').value + '&playerN=' + name, function () {
     handleError('UPDATE');
   });
 };

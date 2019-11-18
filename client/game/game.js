@@ -60,6 +60,8 @@ const gameCheck = () => {
     submitted = false;
     if(user[0].userName === name){
       updateWins();
+    }else{
+      updateLosses();
     }
    
     setTimeout( () => {
@@ -72,6 +74,9 @@ const gameCheck = () => {
   submitted = false;
   if(user[1].userName === name){
     updateWins();
+  }
+  else{
+    updateLosses();
   }
   setTimeout( () => {
     $('#info').html('Waiting for players input');
@@ -128,7 +133,7 @@ const updateWins = () => {
 };
 
 const updateLosses = () => {
-  sendAjax('POST','/updateLosses',`_csrf=${document.querySelector('#csrftoken').value}`, () => {
+  sendAjax('POST','/updateLosses',`_csrf=${document.querySelector('#csrftoken').value}&playerN=${name}`, () => {
     handleError('UPDATE');
   });
 }

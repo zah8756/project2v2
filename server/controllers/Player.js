@@ -74,21 +74,21 @@ const updateLosses = (request, response) => {
   const req = request;
   const res = response;
 
-  return Player.PlayerModel.findByOwner(req.session.account._id, (err, docs) => {
-    if (err) {
-      console.log(err);
+  // return Player.PlayerModel.findByOwner(req.session.account._id, (err, docs) => {
+  //   if (err) {
+  //     console.log(err);
+  //     return res.status(400).json({ error: 'An error occurred' });
+  //   }
+
+  const namer = { name: req.body.playerN };
+  return Player.PlayerModel.update(namer, { $inc: { losses: 1 } }, {}, (error) => {
+    if (error) {
+      console.log(error);
       return res.status(400).json({ error: 'An error occurred' });
     }
-
-    const namer = { name: docs[0].name };
-    return Player.PlayerModel.update(namer, { $inc: { losses: 1 } }, {}, (error) => {
-      if (error) {
-        console.log(error);
-        return res.status(400).json({ error: 'An error occurred' });
-      }
-      return res.status(200).json({ error: 'losses have changed' });
-    });
+    return res.status(200).json({ error: 'wins have changed' });
   });
+//   });
 };
 
 const getUserList = (request, response) => {
