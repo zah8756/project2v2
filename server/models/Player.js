@@ -28,12 +28,6 @@ const PlayerSchema = new mongoose.Schema({
     required: true,
   },
 
-  money: {
-    type: Number,
-    min: 0,
-    required: true,
-  },
-
   owner: {
     type: mongoose.Schema.ObjectId,
     required: true,
@@ -51,7 +45,6 @@ PlayerSchema.statics.toAPI = (doc) => ({
   name: doc.name,
   wins: doc.wins,
   losses: doc.losses,
-  money: doc.money,
 });
 
 PlayerSchema.statics.findByOwner = (ownerId, callback) => {

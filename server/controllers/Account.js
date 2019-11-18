@@ -7,7 +7,7 @@ const loginPage = (req, res) => {
 };
 
 const gamePage = (req, res) => {
-  res.render('game', { csrfToken: req.csrfToken() });
+  res.render('game');
 };
 
 const passPage = (req, res) => {

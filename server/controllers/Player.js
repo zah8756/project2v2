@@ -17,7 +17,6 @@ const makePlayer = (req, res) => {
     name: req.session.account.username,
     wins: 0,
     losses: 0,
-    money: 0,
     owner: req.session.account._id,
   };
 
@@ -53,6 +52,27 @@ const getPlayer = (request, response) => {
 const updateWins = (request, response) => {
   const req = request;
   const res = response;
+  console.log(req.playerN);
+  // return Player.PlayerModel.findByOwner(req.session.account._id, (err, docs) => {
+  //   if (err) {
+  //     console.log(err);
+  //     return res.status(400).json({ error: 'An error occurred' });
+  //   }
+
+  const namer = { name: req.playerN };
+  return Player.PlayerModel.update(namer, { $inc: { wins: 1 } }, {}, (error) => {
+    if (error) {
+      console.log(error);
+      return res.status(400).json({ error: 'An error occurred' });
+    }
+    return res.status(200).json({ error: 'wins have changed' });
+  });
+//   });
+};
+
+const updateLosses = (request, response) => {
+  const req = request;
+  const res = response;
 
   return Player.PlayerModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
@@ -61,12 +81,12 @@ const updateWins = (request, response) => {
     }
 
     const namer = { name: docs[0].name };
-    return Player.PlayerModel.update(namer, { $inc: { wins: 1 } }, {}, (error) => {
+    return Player.PlayerModel.update(namer, { $inc: { losses: 1 } }, {}, (error) => {
       if (error) {
         console.log(error);
         return res.status(400).json({ error: 'An error occurred' });
       }
-      return res.status(200).json({ error: 'wins have changed' });
+      return res.status(200).json({ error: 'losses have changed' });
     });
   });
 };
@@ -88,46 +108,7 @@ const getUserList = (request, response) => {
 };
 
 
-// const addMoney = (request, response) => {
-//   const req = request;
-//   const res = response;
-
-//   // const filter = { name: req.session.account.username };
-//   // const update = { money: 400 };
-//   // const test = Player.PlayerModel.findOneAndUpdate(filter, update, {
-//   //   new: true,
-//   // });
-//   // console.log(test);
-
-//   console.log(req.Player);
-//   return Player.PlayerModel.update(req.session.account.name,
-//     { $set: { money: 400 } },
-//     {}, (errors) => {
-//       if (errors) {
-//         return res.status(500).json({ error: 'unable to change money' });
-//       }
-//       return res.status(200).json({ redirect: '/maker' });
-//     });
-//   // req.body.playerMoney = `${req.body.playerMoney}`;
-//   // return res.status(400).json({ error: 'req.body.playerMoney' });
-//   // const testM = `${req.session.Player.money}`;
-//   // const combo = req.body.playerMoney + testM;
-//   // if (!req.body.playerMoney) {
-//   //   return res.status(400).json({ error: 'All fields are required' });
-//   // }
-//   // const findUser = {
-//   //   username: req.session.account._id,
-//   // };
-//   // return Player.PlayerModel.update(findUser, { $set: { money: req.body.playerMoney } }, {}
-//   // , (errors) => {
-//   //   if (errors) {
-//   //     return res.status(500).json({ error: 'unable to change money' });
-//   //   }
-//   //   return res.status(200).json({ redirect: '/maker' });
-//   // });
-// };
-
-// module.exports.addMoney = addMoney;
+module.exports.updateLosses = updateLosses;
 module.exports.getUserList = getUserList;
 module.exports.update = updateWins;
 module.exports.makerPage = makerPage;

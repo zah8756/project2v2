@@ -2,7 +2,7 @@
 
 var socket = io();
 var submitted = false;
-var user = 'test';
+var name = 'test';
 // let currentUser = req.session.account.username;
 
 var handleText = function handleText(e) {
@@ -24,7 +24,7 @@ var sok = function sok() {
   socket.on('chat message', function (msg) {
     console.log('activated');
 
-    $('#messages').append($('<li>').text(msg));
+    $('#messages').append($('<li>').text(name + ':' + msg));
     window.scrollTo(0, document.body.scrollHeight);
   });
 };
@@ -35,7 +35,7 @@ var handleRPS = function handleRPS(e) {
   var userChoice = $('input[name=choice]:checked').val();
   if (!submitted) {
     submitted = true;
-    socket.emit('player choice', user, userChoice);
+    socket.emit('player choice', name, userChoice);
     $('#info').html('Waiting for the other players decision');
   } else $('#info').html('You can not change your decision');
 
@@ -54,7 +54,10 @@ var gameCheck = function gameCheck() {
   socket.on('player 1 wins', function (user) {
     $('#info').append($('<li>').text(user[0].userName + ' wins!'));
     submitted = false;
-    updateWins();
+    if (user[0].userName === name) {
+      updateWins();
+    }
+
     setTimeout(function () {
       $('#info').html('Waiting for players input');
     }, 3000);
@@ -63,7 +66,9 @@ var gameCheck = function gameCheck() {
   socket.on('player 2 wins', function (user) {
     $('#info').append($('<li>').text(user[1].userName + ' wins!'));
     submitted = false;
-    updateWins();
+    if (user[1].userName === name) {
+      updateWins();
+    }
     setTimeout(function () {
       $('#info').html('Waiting for players input');
     }, 3000);
@@ -119,7 +124,13 @@ var RPSForm = function RPSForm(props) {
 };
 
 var updateWins = function updateWins() {
-  sendAjax('POST', '/update', '_csrf=' + document.querySelector('#csrftoken').value, function () {
+  sendAjax('POST', '/update', '_csrf=' + document.querySelector('#csrftoken').value + '&playerN=' + name, function () {
+    handleError('UPDATE');
+  });
+};
+
+var updateLosses = function updateLosses() {
+  sendAjax('POST', '/updateLosses', '_csrf=' + document.querySelector('#csrftoken').value, function () {
     handleError('UPDATE');
   });
 };
@@ -134,8 +145,8 @@ var setup = function setup(csrf) {
 var loadPlayersFromServer = function loadPlayersFromServer() {
   console.log('got from server');
   sendAjax('GET', '/getUsername', null, function (data) {
-    user = data;
-    console.log(user);
+    name = data;
+    console.log(name);
   });
 };
 

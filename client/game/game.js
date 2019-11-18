@@ -1,6 +1,6 @@
 const socket = io();
 let submitted = false;
-let user ='test';
+let name ='test';
 // let currentUser = req.session.account.username;
 
 const handleText = (e) =>{
@@ -22,7 +22,7 @@ const sok = () => {
   socket.on ('chat message', (msg) => {
     console.log('activated');
     
-    $('#messages').append($('<li>').text(msg));
+    $('#messages').append($('<li>').text(`${name}:${msg}`));
     window.scrollTo(0,document.body.scrollHeight);
   });
 }
@@ -36,7 +36,7 @@ const handleRPS = (e) => {
   if(!submitted)
   {
       submitted = true;
-      socket.emit('player choice',user, userChoice);
+      socket.emit('player choice',name, userChoice);
       $('#info').html('Waiting for the other players decision');
   }
   else $('#info').html('You can not change your decision');
@@ -58,7 +58,10 @@ const gameCheck = () => {
   socket.on('player 1 wins', function (user) {
       $('#info').append($('<li>').text(`${user[0].userName} wins!`));
     submitted = false;
-    updateWins();
+    if(user[0].userName === name){
+      updateWins();
+    }
+   
     setTimeout( () => {
       $('#info').html('Waiting for players input');
     }, 3000);
@@ -67,7 +70,9 @@ const gameCheck = () => {
   socket.on('player 2 wins', function (user) {
   $('#info').append($('<li>').text(`${user[1].userName} wins!`));
   submitted = false;
-  updateWins();
+  if(user[1].userName === name){
+    updateWins();
+  }
   setTimeout( () => {
     $('#info').html('Waiting for players input');
   }, 3000);
@@ -117,10 +122,16 @@ const RPSForm = (props) => {
 }
 
 const updateWins = () => {
-  sendAjax('POST','/update',`_csrf=${document.querySelector('#csrftoken').value}`, () => {
+  sendAjax('POST','/update',`_csrf=${document.querySelector('#csrftoken').value}&playerN=${name}`, () => {
     handleError('UPDATE');
   });
 };
+
+const updateLosses = () => {
+  sendAjax('POST','/updateLosses',`_csrf=${document.querySelector('#csrftoken').value}`, () => {
+    handleError('UPDATE');
+  });
+}
 
 
 const setup = function(csrf) {
@@ -137,8 +148,8 @@ const setup = function(csrf) {
 const loadPlayersFromServer = () => {
   console.log('got from server');
   sendAjax('GET', '/getUsername', null, (data) => {
-      user = data
-      console.log(user);
+      name = data
+      console.log(name);
   });
 };
 
