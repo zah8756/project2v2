@@ -1,27 +1,25 @@
 'use strict';
 
-var handlePlayer = function handlePlayer(e) {
-    e.preventDefault();
+// const handlePlayer = (e) => {
+//     e.preventDefault();
 
-    $('#playerMessage').animate({ width: 'hide' }, 350);
+//     $('#playerMessage').animate({width:'hide'}, 350);
 
-    if ($('#playerName').val() == '' || $('#playerWins').val() == '' || $('#playerLosses').val() == '' || $('#playerMoney').val() == '') {
-        handleError('RAWR! All fields are required');
-        return false;
-    }
+//     sendAjax('POST', $('#playerForm').attr('action'), $('#playerForm').serialize(), function() {
+//         loadPlayersFromServer();
+//     });
 
-    sendAjax('POST', $('#playerForm').attr('action'), $('#playerForm').serialize(), function () {
-        loadPlayersFromServer();
-    });
-
-    return false;
-};
+//     return false;
+// };
 
 var handleUpdate = function handleUpdate(e) {
     e.preventDefault();
 
-    sendAjax('POST', $('#updateB').attr('action'), $('#updateB').serialize(), function () {
+    console.log($('#updateB').serialize());
+
+    sendAjax('POST', $('#updateB').attr('action'), '_csrf=' + document.querySelector('#csrftoken').value, function () {
         handleError('UPDATE');
+        loadPlayersFromServer();
     });
 
     return false;
@@ -31,37 +29,11 @@ var PlayerForm = function PlayerForm(props) {
     return React.createElement(
         'form',
         { id: 'playerForm',
-            onSubmit: handlePlayer,
             name: 'playerForm',
             action: '/maker',
             method: 'POST',
             className: 'playerForm' },
-        React.createElement(
-            'label',
-            { htmlFor: 'name' },
-            'Name: '
-        ),
-        React.createElement('input', { id: 'playerName', type: 'text', name: 'name', placeholder: 'Player Name' }),
-        React.createElement(
-            'label',
-            { htmlFor: 'age' },
-            'wins: '
-        ),
-        React.createElement('input', { id: 'playerWins', type: 'text', name: 'wins', placeholder: 'Player wins' }),
-        React.createElement(
-            'label',
-            { htmlFor: 'level' },
-            'losses: '
-        ),
-        React.createElement('input', { id: 'playerLosses', type: 'text', name: 'losses', placeholder: 'Player losses' }),
-        React.createElement(
-            'label',
-            { htmlFor: 'money' },
-            'Money: '
-        ),
-        React.createElement('input', { id: 'playerMoney', type: 'text', name: 'money', placeholder: 'Player Money' }),
-        React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
-        React.createElement('input', { className: 'makePlayerSubmit', type: 'submit', value: 'Make Player' })
+        React.createElement('input', { id: 'csrftoken', type: 'hidden', name: '_csrf', value: props.csrf })
     );
 };
 
@@ -147,6 +119,16 @@ var setup = function setup(csrf) {
     ReactDOM.render(React.createElement(UpdateB, { csrf: csrf }), document.querySelector('#update'));
 
     ReactDOM.render(React.createElement(PlayerList, { players: [] }), document.querySelector('#players'));
+
+    console.log(csrf);
+    sendAjax('GET', '/getPlayer', '_csrf=' + document.querySelector('#csrftoken').value, function (data) {
+        console.log(data);
+        if (data.players.length == 0) {
+            sendAjax('POST', '/maker', '_csrf=' + document.querySelector('#csrftoken').value, function () {
+                loadPlayersFromServer();
+            });
+        };
+    });
 
     loadPlayersFromServer();
 };

@@ -17,7 +17,7 @@ const makePlayer = (req, res) => {
     name: req.session.account.username,
     wins: 0,
     losses: 0,
-    money: req.session.account.money,
+    money: 0,
     owner: req.session.account._id,
   };
 
@@ -46,12 +46,11 @@ const getPlayer = (request, response) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred' });
     }
-    console.log(docs[0].name);
     return res.json({ players: docs });
   });
 };
 
-const update = (request, response) => {
+const updateWins = (request, response) => {
   const req = request;
   const res = response;
 
@@ -62,13 +61,29 @@ const update = (request, response) => {
     }
 
     const namer = { name: docs[0].name };
-    return Player.PlayerModel.update(namer, { $set: { wins: 20 } }, {}, (error) => {
+    return Player.PlayerModel.update(namer, { $inc: { wins: 1 } }, {}, (error) => {
       if (error) {
         console.log(error);
         return res.status(400).json({ error: 'An error occurred' });
       }
       return res.status(200).json({ error: 'wins have changed' });
     });
+  });
+};
+
+const getUserList = (request, response) => {
+  const req = request;
+  const res = response;
+
+  return Player.PlayerModel.findByOwner(req.session.account._id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred' });
+    }
+    const list = docs.count;
+    console.log(list);
+    res.json(list);
+    return res.status(200).json({ error: 'got list' });
   });
 };
 
@@ -113,7 +128,8 @@ const update = (request, response) => {
 // };
 
 // module.exports.addMoney = addMoney;
-module.exports.update = update;
+module.exports.getUserList = getUserList;
+module.exports.update = updateWins;
 module.exports.makerPage = makerPage;
 module.exports.getPlayer = getPlayer;
 module.exports.make = makePlayer;

@@ -46,16 +46,27 @@ var gameCheck = function gameCheck() {
   socket.on('tie', function () {
     $('#info').append($('<li>').text('A tie!'));
     submitted = false;
+    setTimeout(function () {
+      $('#info').html('Waiting for players input');
+    }, 3000);
   });
 
   socket.on('player 1 wins', function (user) {
     $('#info').append($('<li>').text(user[0].userName + ' wins!'));
     submitted = false;
+    updateWins();
+    setTimeout(function () {
+      $('#info').html('Waiting for players input');
+    }, 3000);
   });
 
   socket.on('player 2 wins', function (user) {
     $('#info').append($('<li>').text(user[1].userName + ' wins!'));
     submitted = false;
+    updateWins();
+    setTimeout(function () {
+      $('#info').html('Waiting for players input');
+    }, 3000);
   });
 };
 
@@ -102,9 +113,15 @@ var RPSForm = function RPSForm(props) {
       'Scissors'
     ),
     React.createElement('br', null),
-    React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
+    React.createElement('input', { id: 'csrftoken', type: 'hidden', name: '_csrf', value: props.csrf }),
     React.createElement('input', { className: 'gameButton', type: 'submit', value: 'make decision' })
   );
+};
+
+var updateWins = function updateWins() {
+  sendAjax('POST', '/update', '_csrf=' + document.querySelector('#csrftoken').value, function () {
+    handleError('UPDATE');
+  });
 };
 
 var setup = function setup(csrf) {

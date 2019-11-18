@@ -1,25 +1,24 @@
-const handlePlayer = (e) => {
-    e.preventDefault();
 
-    $('#playerMessage').animate({width:'hide'}, 350);
+// const handlePlayer = (e) => {
+//     e.preventDefault();
 
-    if($('#playerName').val() == '' || $('#playerWins').val() == '' || $('#playerLosses').val() == '' || $('#playerMoney').val() == '') {
-        handleError('RAWR! All fields are required');
-        return false;
-    }
+//     $('#playerMessage').animate({width:'hide'}, 350);
 
-    sendAjax('POST', $('#playerForm').attr('action'), $('#playerForm').serialize(), function() {
-        loadPlayersFromServer();
-    });
+//     sendAjax('POST', $('#playerForm').attr('action'), $('#playerForm').serialize(), function() {
+//         loadPlayersFromServer();
+//     });
 
-    return false;
-};
+//     return false;
+// };
 
 const handleUpdate = (e) => {
     e.preventDefault();
 
-    sendAjax('POST', $('#updateB').attr('action'), $('#updateB').serialize(), () => {
+    console.log($('#updateB').serialize());
+
+    sendAjax('POST', $('#updateB').attr('action'),`_csrf=${document.querySelector('#csrftoken').value}`, () => {
         handleError('UPDATE');
+        loadPlayersFromServer();
     });
 
     return false;
@@ -29,21 +28,20 @@ const handleUpdate = (e) => {
 const PlayerForm = (props) => {
     return (
         <form id='playerForm'
-        onSubmit={handlePlayer}
         name='playerForm'
         action='/maker'
         method='POST'
         className='playerForm' >
-            <label htmlFor='name'>Name: </label>
+            {/* <label htmlFor='name'>Name: </label>
             <input id='playerName' type='text' name='name' placeholder='Player Name' />
             <label htmlFor='age'>wins: </label>
             <input id='playerWins' type='text' name='wins' placeholder='Player wins' />
             <label htmlFor='level'>losses: </label>
             <input id='playerLosses' type='text' name='losses' placeholder='Player losses' />
             <label htmlFor='money'>Money: </label>
-            <input id='playerMoney' type='text' name='money' placeholder='Player Money' />
-            <input type='hidden' name='_csrf' value={props.csrf} />
-            <input className='makePlayerSubmit' type='submit' value='Make Player' />
+            <input id='playerMoney' type='text' name='money' placeholder='Player Money' /> */}
+            <input id='csrftoken' type='hidden' name='_csrf' value={props.csrf} />
+            {/* <input className='makePlayerSubmit' type='submit' value='Make Player' /> */}
         </form>
     );
 };
@@ -111,6 +109,17 @@ const setup = function(csrf) {
         <PlayerList players={[]}/>, document.querySelector('#players')
     );
 
+    console.log(csrf);
+    sendAjax('GET', '/getPlayer', `_csrf=${document.querySelector('#csrftoken').value}`, (data) => {
+        console.log(data);
+        if (data.players.length==0){
+            sendAjax('POST', '/maker',`_csrf=${document.querySelector('#csrftoken').value}`, function() {
+                loadPlayersFromServer();
+            });
+        };
+    });
+
+        
     loadPlayersFromServer();
 };
 

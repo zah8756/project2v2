@@ -17,8 +17,9 @@ const router = (app) => {
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
   // app.post('/chat', mid.requiresLogin, controllers.Game.chat);
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
-  app.post('/update', mid.requiresSecure, controllers.Player.update);
+  app.post('/update', mid.requiresLogin, controllers.Player.update);
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
+  app.get('/getUserList', mid.requiresLogin, controllers.Player.getUserList);
   app.get('/maker', mid.requiresLogin, controllers.Player.makerPage);// change
   app.post('/maker', mid.requiresLogin, controllers.Player.make);// change
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);

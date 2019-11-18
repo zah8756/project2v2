@@ -50,17 +50,30 @@ const gameCheck = () => {
     socket.on('tie', function () {
       $('#info').append($('<li>').text('A tie!'));
       submitted = false;
+      setTimeout( () => {
+        $('#info').html('Waiting for players input');
+      }, 3000);
   });
 
   socket.on('player 1 wins', function (user) {
       $('#info').append($('<li>').text(`${user[0].userName} wins!`));
     submitted = false;
+    updateWins();
+    setTimeout( () => {
+      $('#info').html('Waiting for players input');
+    }, 3000);
   });
 
   socket.on('player 2 wins', function (user) {
   $('#info').append($('<li>').text(`${user[1].userName} wins!`));
   submitted = false;
-});
+  updateWins();
+  setTimeout( () => {
+    $('#info').html('Waiting for players input');
+  }, 3000);
+  });
+
+  
 
 }
 
@@ -97,11 +110,17 @@ const RPSForm = (props) => {
       <label htmlFor="scissors">Scissors</label>
       <br/>    
 
-      <input type='hidden' name='_csrf' value={props.csrf} />
+      <input id='csrftoken' type='hidden' name='_csrf' value={props.csrf} />
       <input className='gameButton' type='submit' value='make decision' />
     </form>
   );
 }
+
+const updateWins = () => {
+  sendAjax('POST','/update',`_csrf=${document.querySelector('#csrftoken').value}`, () => {
+    handleError('UPDATE');
+  });
+};
 
 
 const setup = function(csrf) {

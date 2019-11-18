@@ -1,18 +1,11 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-const roomId = mongoose.Types.ObjectId;
-const setName = (name) => _.escape(name).trim();
-
-const _ = require('underscore');
-const roomModel = {};
-
 const RoomSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
     trim: true,
-    set: setName,
   },
   capacity: {
     type: Number,
