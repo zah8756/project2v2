@@ -16,7 +16,7 @@ const passPage = (req, res) => {
 };
 
 const gChat = (req, res) => {
-  res.render('globalChat');
+  res.render('globalChat', { username: req.session.account.username });
 };
 
 const moneyPage = (req, res) => {

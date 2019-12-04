@@ -5,7 +5,7 @@ let name ='test';
 const handleText = (e) =>{
   e.preventDefault(); // prevents page reloading
   console.log('clap');
-  socket.emit('chat message', $('#m').val());
+  socket.emit('chat message', $('#username').val() +" : "+ $('#m').val());
   $('#m').val('');
 
   return false;
@@ -19,7 +19,7 @@ const sok = () => {
   socket.on ('chat message', (msg) => {
     console.log('activated');
     
-    $('#messages').append($('<li>').text(`${name}: ${msg}`));
+    $('#messages').append($('<li>').text(`${msg}`));
     window.scrollTo(0,document.body.scrollHeight);
   });
 }
