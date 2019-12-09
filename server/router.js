@@ -21,6 +21,9 @@ const router = (app) => {
   app.get('/getUserList', mid.requiresLogin, controllers.Player.getUserList);
   app.get('/maker', mid.requiresLogin, controllers.Player.makerPage);// change
   app.post('/maker', mid.requiresLogin, controllers.Player.make);// change
+  app.post('/makeLobby', mid.requiresLogin, controllers.Lobby.makeLobby);
+  app.get('/getLobbys', mid.requiresLogin, controllers.Lobby.getLobbys);
+  app.get('/lobbyPage', mid.requiresLogin, controllers.Lobby.lobbyPage);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.get('/*', mid.requiresSecure, mid.requiresLogin, controllers.Account.missingPage);
 };

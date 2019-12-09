@@ -33,6 +33,10 @@ LobbySchema.statics.findByOwner = (ownerId, callback) => {
   return LobbyModel.find(search).select('name').exec(callback);
 };
 
+LobbySchema.statics.findAllLobbys = (callback) => {
+  return LobbyModel.find().select('name').exec(callback);
+};
+
 LobbyModel = mongoose.model('Lobby', LobbySchema);
 
 module.exports.LobbyModel = LobbyModel;

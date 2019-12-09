@@ -10,8 +10,8 @@ const handleMakeLobby = (e) => {
         return false;
     }
 
-    sendAjax('POST', $('#lobbyForm').attr('action'), $('#lobbyForm').serialize(), () => {
-        loadLobbysFromServer();
+    sendAjax('POST', '/makeLobby', $('#lobbyForm').serialize(), () => {
+        loadlobbiesFromServer();
     });
 
     return false;
@@ -22,7 +22,8 @@ const LobbyForm = (props) => {
     return (
         <form id='lobbyForm'
         name='lobbyForm'
-        action='/maker'
+        onSubmit={handleMakeLobby}
+        action=''
         method='POST'
         className='lobbyForm' >
             <label htmlFor='name'>Lobby Name: </label>
@@ -59,7 +60,8 @@ const LobbyList = (props) => {
 };
 
 const loadlobbiesFromServer = () => {
-    sendAjax('GET', '/getlobbies', null, (data) => {
+    sendAjax('GET', '/getLobbys', null, (data) => {
+        console.log(data);
         ReactDOM.render(
             <LobbyList lobbys={data.lobbys} />, document.querySelector('#lobbyList')
         );

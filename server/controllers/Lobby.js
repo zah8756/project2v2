@@ -1,6 +1,12 @@
 const models = require('../models');
 const Lobby = models.Lobby;
 
+const lobbyPage = (req, res) => {
+  const lobbyL = Lobby.LobbyModel;
+  return res.render('lobbyList', { csrfToken: req.csrfToken(), lobby: lobbyL });
+};
+
+
 const makeLobby = (req, res) => {
   console.log('created');
   const LobbyData = {
@@ -23,5 +29,14 @@ const makeLobby = (req, res) => {
   return lobbyPromise;
 };
 
+const getLobbys = (request, response) => {
+  const req = request;
+  const res = response;
+  const lobbyL = Lobby.LobbyModel.findAllLobbys();
+  console.log(lobbyL);
+  return res.json({ lobbys: lobbyL });
+};
 
 module.exports.makeLobby = makeLobby;
+module.exports.getLobbys = getLobbys;
+module.exports.lobbyPage = lobbyPage;
