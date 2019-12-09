@@ -70,7 +70,7 @@ var LobbyList = function LobbyList(props) {
                 { 'class': 'navlink' },
                 React.createElement(
                     'a',
-                    { href: '/game' },
+                    { href: '/game?lobby=' + lobby.name },
                     'Game'
                 )
             )

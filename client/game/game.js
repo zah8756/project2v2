@@ -12,8 +12,9 @@ const handleText = (e) =>{
 }
 //connects us to our room would have done more with room but ran out of time 
 const sok = () => {
+  console.log($('#roomName').val());
   socket.on('connect', function() {
-   socket.emit('room', $('#roomName'));
+   socket.emit('room', $('#roomName').val());
   });
 
   socket.on ('chat message', (msg) => {
@@ -33,7 +34,7 @@ const handleRPS = (e) => {
   if(!submitted)
   {
       submitted = true;
-      socket.emit('player choice',name, userChoice);
+      socket.emit('player choice',name, userChoice, $('#roomName').val());
       $('#info').html('Waiting for the other players decision');
   }
   else $('#info').html('You can not change your decision');

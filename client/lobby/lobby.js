@@ -49,7 +49,7 @@ const LobbyList = (props) => {
             <div key={lobby.anchor} className='lobby'>
                 <img src='/assets/img/fistBump.png' alt='fistBump' className='fistBump'/>
                 <h3 className='domoName'> Name: {lobby.name} </h3>
-                <div class="navlink"><a href="/game">Game</a></div>
+                <div class="navlink"><a href={`/game?lobby=${lobby.name}`}>Game</a></div>
             </div>
         );
     });

@@ -14,7 +14,8 @@ const lobbyPage = (request, response) => {
 };
 
 const gamePage = (req, res) => {
-  res.render('game', { lName: req.body.name });
+  console.log(`${req.query.lobby} this is the test name`);
+  res.render('game', { lName: req.query.lobby });
 };
 
 
