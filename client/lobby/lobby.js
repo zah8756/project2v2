@@ -35,6 +35,7 @@ const LobbyForm = (props) => {
 };
 
 const LobbyList = (props) => {
+  console.log(props);
     if(props.lobbys.length === 0) {
         return (
             <div className='lobbysList'>
@@ -45,9 +46,10 @@ const LobbyList = (props) => {
 
     const lobbyNodes = props.lobbys.map(function(lobby) {
         return (
-            <div key={lobby._id} className='lobby'>
+            <div key={lobby.anchor} className='lobby'>
                 <img src='/assets/img/fistBump.png' alt='fistBump' className='fistBump'/>
                 <h3 className='domoName'> Name: {lobby.name} </h3>
+                <div class="navlink"><a href="/game">Game</a></div>
             </div>
         );
     });
@@ -61,9 +63,9 @@ const LobbyList = (props) => {
 
 const loadlobbiesFromServer = () => {
     sendAjax('GET', '/getLobbys', null, (data) => {
-        console.log(data);
+        console.log(data.lobbys);
         ReactDOM.render(
-            <LobbyList lobbys={data.lobbys} />, document.querySelector('#lobbyList')
+            <LobbyList lobbys={data.lobbys} />, document.querySelector('#lobbys')
         );
     });
 };

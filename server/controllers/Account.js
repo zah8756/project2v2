@@ -7,9 +7,9 @@ const loginPage = (req, res) => {
   res.render('login', { csrfToken: req.csrfToken() });
 };
 
-const gamePage = (req, res) => {
-  res.render('game');
-};
+// const gamePage = (req, res) => {
+//   res.render('game');
+// };
 
 const passPage = (req, res) => {
   res.render('passChange');
@@ -172,7 +172,7 @@ module.exports.moneyPage = moneyPage;
 module.exports.loginPage = loginPage;
 module.exports.login = login;
 module.exports.logout = logout;
-module.exports.gamePage = gamePage;
+// module.exports.gamePage = gamePage;
 module.exports.changePassword = changePassword;
 module.exports.passPage = passPage;
 module.exports.missingPage = missingPage;

@@ -6,7 +6,7 @@ const router = (app) => {
   app.get('/getToken', mid.requiresSecure, controllers.Account.getToken);
   app.get('/getPlayer', mid.requiresSecure, controllers.Player.getPlayer);// change
   app.get('/checkMoney', mid.requiresSecure, controllers.Account.moneyPage);
-  app.get('/game', mid.requiresSecure, controllers.Account.gamePage);
+  app.get('/game', mid.requiresSecure, controllers.Lobby.gamePage);
   app.get('/globalChat', mid.requiresSecure, controllers.Account.globalChat);
   app.get('/getUsername', mid.requiresSecure, controllers.Account.getUsername);
   app.post('/changePassword', mid.requiresSecure, mid.requiresLogin

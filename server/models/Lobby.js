@@ -14,6 +14,9 @@ const LobbySchema = new mongoose.Schema({
     trim: true,
     set: setLobbyName,
   },
+  anchor: {
+    type: Number,
+  },
   createdData: {
     type: Date,
     default: Date.now,
@@ -23,6 +26,7 @@ const LobbySchema = new mongoose.Schema({
 LobbySchema.statics.toAPI = (doc) => ({
   name: doc.name,
   _id: doc._id,
+  anchor: doc.anchor,
 });
 
 LobbySchema.statics.findByOwner = (ownerId, callback) => {
@@ -33,8 +37,11 @@ LobbySchema.statics.findByOwner = (ownerId, callback) => {
   return LobbyModel.find(search).select('name').exec(callback);
 };
 
-LobbySchema.statics.findAllLobbys = (callback) => {
-  return LobbyModel.find().select('name').exec(callback);
+LobbySchema.statics.findAllLobbys = (given, callback) => {
+  const search = {
+    owner: given,
+  };
+  return LobbyModel.find(search).select('name').exec(callback);
 };
 
 LobbyModel = mongoose.model('Lobby', LobbySchema);

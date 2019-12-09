@@ -40,6 +40,7 @@ var LobbyForm = function LobbyForm(props) {
 };
 
 var LobbyList = function LobbyList(props) {
+    console.log(props);
     if (props.lobbys.length === 0) {
         return React.createElement(
             'div',
@@ -55,7 +56,7 @@ var LobbyList = function LobbyList(props) {
     var lobbyNodes = props.lobbys.map(function (lobby) {
         return React.createElement(
             'div',
-            { key: lobby._id, className: 'lobby' },
+            { key: lobby.anchor, className: 'lobby' },
             React.createElement('img', { src: '/assets/img/fistBump.png', alt: 'fistBump', className: 'fistBump' }),
             React.createElement(
                 'h3',
@@ -63,6 +64,15 @@ var LobbyList = function LobbyList(props) {
                 ' Name: ',
                 lobby.name,
                 ' '
+            ),
+            React.createElement(
+                'div',
+                { 'class': 'navlink' },
+                React.createElement(
+                    'a',
+                    { href: '/game' },
+                    'Game'
+                )
             )
         );
     });
@@ -76,8 +86,8 @@ var LobbyList = function LobbyList(props) {
 
 var loadlobbiesFromServer = function loadlobbiesFromServer() {
     sendAjax('GET', '/getLobbys', null, function (data) {
-        console.log(data);
-        ReactDOM.render(React.createElement(LobbyList, { lobbys: data.lobbys }), document.querySelector('#lobbyList'));
+        console.log(data.lobbys);
+        ReactDOM.render(React.createElement(LobbyList, { lobbys: data.lobbys }), document.querySelector('#lobbys'));
     });
 };
 

@@ -15,7 +15,7 @@ var handleText = function handleText(e) {
 //connects us to our room would have done more with room but ran out of time 
 var sok = function sok() {
   socket.on('connect', function () {
-    socket.emit('room', 'test');
+    socket.emit('room', $('#roomName'));
   });
 
   socket.on('chat message', function (msg) {
