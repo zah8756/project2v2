@@ -39,6 +39,18 @@ var LobbyForm = function LobbyForm(props) {
     );
 };
 
+var ResetForm = function ResetForm(props) {
+    return React.createElement(
+        'form',
+        { id: 'resetButton',
+            name: 'resetButton',
+            onSubmit: loadlobbiesFromServer,
+            className: 'resetButton' },
+        React.createElement('input', { id: 'csrftoken', type: 'hidden', name: '_csrf', value: props.csrf }),
+        React.createElement('input', { className: 'makeLobbySubmit', type: 'submit', value: 'resetLobbies' })
+    );
+};
+
 var LobbyList = function LobbyList(props) {
     console.log(props);
     if (props.lobbys.length === 0) {
@@ -60,7 +72,7 @@ var LobbyList = function LobbyList(props) {
             React.createElement('img', { src: '/assets/img/fistBump.png', alt: 'fistBump', className: 'fistBump' }),
             React.createElement(
                 'h3',
-                { className: 'domoName' },
+                { className: 'lobbyName' },
                 ' Name: ',
                 lobby.name,
                 ' '
@@ -71,9 +83,15 @@ var LobbyList = function LobbyList(props) {
                 React.createElement(
                     'a',
                     { href: '/game?lobby=' + lobby.name },
-                    'Game'
+                    'Join Lobby'
                 )
-            )
+            ),
+            React.createElement(
+                'button',
+                { className: 'deleteLobby', onClick: deleteLobby },
+                '\xD7'
+            ),
+            React.createElement('input', { className: 'lobbyId', type: 'hidden', value: lobby._id })
         );
     });
 
@@ -91,8 +109,19 @@ var loadlobbiesFromServer = function loadlobbiesFromServer() {
     });
 };
 
+var deleteLobby = function deleteLobby(e) {
+    var id = e.target.parentElement.querySelector('.lobbyId').value;
+    var _csrf = '' + document.querySelector('#csrftoken').value;
+
+    sendAjax('DELETE', '/deleteLobby', { id: id, _csrf: _csrf }, function (data) {
+        loadlobbiesFromServer();
+    });
+};
+
 var setup = function setup(csrf) {
     ReactDOM.render(React.createElement(LobbyForm, { csrf: csrf }), document.querySelector('#makeLobby'));
+
+    ReactDOM.render(React.createElement(ResetForm, { csrf: csrf }), document.querySelector('#resetLobby'));
 
     ReactDOM.render(React.createElement(LobbyList, { lobbys: [] }), document.querySelector('#lobbys'));
 

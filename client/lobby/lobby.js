@@ -34,6 +34,18 @@ const LobbyForm = (props) => {
     );
 };
 
+const ResetForm  = (props) =>{
+    return (
+        <form id='resetButton'
+        name='resetButton'
+        onSubmit={loadlobbiesFromServer}
+        className='resetButton' >
+            <input id='csrftoken' type='hidden' name='_csrf' value={props.csrf} />
+            <input className='makeLobbySubmit' type='submit' value='resetLobbies' />
+        </form>
+    );
+}
+
 const LobbyList = (props) => {
   console.log(props);
     if(props.lobbys.length === 0) {
@@ -48,8 +60,10 @@ const LobbyList = (props) => {
         return (
             <div key={lobby.anchor} className='lobby'>
                 <img src='/assets/img/fistBump.png' alt='fistBump' className='fistBump'/>
-                <h3 className='domoName'> Name: {lobby.name} </h3>
-                <div class="navlink"><a href={`/game?lobby=${lobby.name}`}>Game</a></div>
+                <h3 className='lobbyName'> Name: {lobby.name} </h3>
+                <div class="navlink"><a href={`/game?lobby=${lobby.name}`}>Join Lobby</a></div>
+                <button className='deleteLobby' onClick={deleteLobby}>&times;</button>
+                <input className='lobbyId'  type='hidden' value = {lobby._id}/>
             </div>
         );
     });
@@ -70,9 +84,23 @@ const loadlobbiesFromServer = () => {
     });
 };
 
+const deleteLobby = (e) => {
+	const id = e.target.parentElement.querySelector('.lobbyId').value;
+	const _csrf=`${document.querySelector('#csrftoken').value}`;
+	
+	sendAjax('DELETE', '/deleteLobby', {id, _csrf}, data => {
+		loadlobbiesFromServer();
+	});
+};
+
+
 const setup = function(csrf) {
     ReactDOM.render(
         <LobbyForm csrf={csrf}/>, document.querySelector('#makeLobby')
+    );
+
+    ReactDOM.render(
+        <ResetForm csrf={csrf}/>, document.querySelector('#resetLobby')
     );
 
     ReactDOM.render(

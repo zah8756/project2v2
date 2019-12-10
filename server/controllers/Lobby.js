@@ -42,6 +42,21 @@ const makeLobby = (req, res) => {
   return lobbyPromise;
 };
 
+const deleteLobby = (req, res) => {
+  if (!req.body.id) {
+    return res.status(400).json({ error: 'lobby id is required to delete.' });
+  }
+
+  return Lobby.LobbyModel.deleteById(req.body.id, (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'An error ocurred.' });
+    }
+
+    return res.status(200).json({ msg: 'lobby has been deleted successfully.' });
+  });
+};
+
 const getLobbys = (request, response) => {
   const req = request;
   const res = response;
@@ -54,6 +69,7 @@ const getLobbys = (request, response) => {
   });
 };
 
+module.exports.deleteLobby = deleteLobby;
 module.exports.makeLobby = makeLobby;
 module.exports.getLobbys = getLobbys;
 module.exports.lobbyPage = lobbyPage;

@@ -13,6 +13,7 @@ const LobbySchema = new mongoose.Schema({
     required: true,
     trim: true,
     set: setLobbyName,
+    unique: true,
   },
   anchor: {
     type: Number,
@@ -42,6 +43,14 @@ LobbySchema.statics.findAllLobbys = (given, callback) => {
     owner: given,
   };
   return LobbyModel.find(search).select('name').exec(callback);
+};
+
+LobbySchema.statics.deleteById = (id, callback) => {
+  const search = {
+    _id: convertId(id),
+  };
+
+  return LobbyModel.findOneAndRemove(search).exec(callback);
 };
 
 LobbyModel = mongoose.model('Lobby', LobbySchema);

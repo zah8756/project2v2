@@ -15,7 +15,7 @@ const app = express();
 // eslint-disable-next-line new-cap
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-let users = {};
+const users = {};
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 

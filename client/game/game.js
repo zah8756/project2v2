@@ -50,10 +50,12 @@ const gameCheck = () => {
       submitted = false;
       setTimeout( () => {
         $('#info').html('Waiting for players input');
-      }, 3000);
+      }, 5000);
   });
 
   socket.on('player 1 wins', function (user) {
+      $('#info').append($('<li>').text(`${user[0].userName} picked ${user[0].playerDecision}`));
+      $('#info').append($('<li>').text(`${user[1].userName} picked ${user[1].playerDecision}`));
       $('#info').append($('<li>').text(`${user[0].userName} wins!`));
     submitted = false;
     if(user[0].userName === name){
@@ -64,11 +66,13 @@ const gameCheck = () => {
    
     setTimeout( () => {
       $('#info').html('Waiting for players input');
-    }, 3000);
+    }, 5000);
   });
 
   socket.on('player 2 wins', function (user) {
-  $('#info').append($('<li>').text(`${user[1].userName} wins!`));
+    $('#info').append($('<li>').text(`${user[1].userName} picked ${user[1].playerDecision}`));
+    $('#info').append($('<li>').text(`${user[0].userName} picked ${user[0].playerDecision}`));
+    $('#info').append($('<li>').text(`${user[1].userName} wins!`));
   submitted = false;
   if(user[1].userName === name){
     updateWins();
@@ -78,7 +82,7 @@ const gameCheck = () => {
   }
   setTimeout( () => {
     $('#info').html('Waiting for players input');
-  }, 3000);
+  }, 5000);
   });
 
   
