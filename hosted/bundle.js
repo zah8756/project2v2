@@ -29,7 +29,7 @@ var PlayerList = function PlayerList(props) {
         return React.createElement(
             'div',
             { key: player._id, className: 'player' },
-            React.createElement('img', { src: '/assets/img/fistBump.png', alt: 'fistBump', className: 'fistBump' }),
+            React.createElement('img', { src: '/assets/img/crown.png', alt: 'crown', className: 'fistBump' }),
             React.createElement(
                 'h3',
                 { className: 'playerName' },

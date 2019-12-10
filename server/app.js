@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
   });
 });
-
+// connects us to a specific room passed in form the client side
 io.on('connection', (socket) => {
   socket.on('room', (room) => {
     socket.join(room);
@@ -55,19 +55,37 @@ io.on('connection', (socket) => {
       console.log(users[roomName].length);
       if (users[roomName].length === 2) {
         if (users[roomName][0].playerDecision === 'rock') {
-          if (users[roomName][1].playerDecision === 'rock') io.in(room).emit('tie', users[roomName]);
-          if (users[roomName][1].playerDecision === 'paper') io.in(room).emit('player 2 wins', users[roomName]);
-          if (users[roomName][1].playerDecision === 'scissors') io.in(room).emit('player 1 wins', users[roomName]);
+          if (users[roomName][1].playerDecision === 'rock') {
+            io.in(room).emit('tie', users[roomName]);
+          }
+          if (users[roomName][1].playerDecision === 'paper') {
+            io.in(room).emit('player 2 wins', users[roomName]);
+          }
+          if (users[roomName][1].playerDecision === 'scissors') {
+            io.in(room).emit('player 1 wins', users[roomName]);
+          }
           users[roomName] = [];
         } else if (users[roomName][0].playerDecision === 'paper') {
-          if (users[roomName][1].playerDecision === 'rock') io.in(room).emit('player 1 wins', users[roomName]);
-          if (users[roomName][1].playerDecision === 'paper') io.in(room).emit('tie', users[roomName]);
-          if (users[roomName][1].playerDecision === 'scissors') io.in(room).emit('player 2 wins', users[roomName]);
+          if (users[roomName][1].playerDecision === 'rock') {
+            io.in(room).emit('player 1 wins', users[roomName]);
+          }
+          if (users[roomName][1].playerDecision === 'paper') {
+            io.in(room).emit('tie', users[roomName]);
+          }
+          if (users[roomName][1].playerDecision === 'scissors') {
+            io.in(room).emit('player 2 wins', users[roomName]);
+          }
           users[roomName] = [];
         } else if (users[roomName][0].playerDecision === 'scissors') {
-          if (users[roomName][1].playerDecision === 'rock') io.in(room).emit('player 2 wins', users[roomName]);
-          if (users[roomName][1].playerDecision === 'paper') io.in(room).emit('player 1 wins', users[roomName]);
-          if (users[roomName][1].playerDecision === 'scissors') io.in(room).emit('tie', users[roomName]);
+          if (users[roomName][1].playerDecision === 'rock') {
+            io.in(room).emit('player 2 wins', users[roomName]);
+          }
+          if (users[roomName][1].playerDecision === 'paper') {
+            io.in(room).emit('player 1 wins', users[roomName]);
+          }
+          if (users[roomName][1].playerDecision === 'scissors') {
+            io.in(room).emit('tie', users[roomName]);
+          }
           users[roomName] = [];
         }
       }

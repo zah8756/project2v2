@@ -8,15 +8,17 @@ const handleText = (e) =>{
   
     return false;
 }
-
+//changed how I find the player now it properly displays who typed what in chat 
 const sok = () => {
     socket.on('connect', function() {
      socket.emit('room', 'test');
     });
+    let messages = $('#messages');
   
     socket.on ('chat message', (msg) => {      
-      $('#messages').append($('<li>').text(`${name}: ${msg}`));
-      window.scrollTo(0,document.body.scrollHeight);
+      messages.append($('<li>').text(`${name}: ${msg}`));
+      console.log(messages[0]);
+      $("#messages").animate({ scrollTop: $('#messages')[0].scrollHeight}, 500);
     });
   }
   
@@ -48,6 +50,7 @@ const sok = () => {
     loadPlayersFromServer();
   };
   
+  //loads a player from the server on setup so aht we can grab their name 
   const loadPlayersFromServer = () => {
     console.log('got from server');
     sendAjax('GET', '/getUsername', null, (data) => {

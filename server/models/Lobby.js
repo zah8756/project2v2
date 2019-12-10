@@ -7,6 +7,8 @@ let LobbyModel = {};
 const convertId = mongoose.Types.ObjectId;
 const setLobbyName = (name) => _.escape(name).trim();
 
+// create a new lobby schema
+
 const LobbySchema = new mongoose.Schema({
   name: {
     type: String,
@@ -29,15 +31,7 @@ LobbySchema.statics.toAPI = (doc) => ({
   _id: doc._id,
   anchor: doc.anchor,
 });
-
-LobbySchema.statics.findByOwner = (ownerId, callback) => {
-  const search = {
-    owner: convertId(ownerId),
-  };
-
-  return LobbyModel.find(search).select('name').exec(callback);
-};
-
+// give us a way to find all lobby's
 LobbySchema.statics.findAllLobbys = (given, callback) => {
   const search = {
     owner: given,
@@ -45,6 +39,7 @@ LobbySchema.statics.findAllLobbys = (given, callback) => {
   return LobbyModel.find(search).select('name').exec(callback);
 };
 
+// function for deleting a lobby
 LobbySchema.statics.deleteById = (id, callback) => {
   const search = {
     _id: convertId(id),

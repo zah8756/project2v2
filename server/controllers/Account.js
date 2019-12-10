@@ -7,10 +7,6 @@ const loginPage = (req, res) => {
   res.render('login', { csrfToken: req.csrfToken() });
 };
 
-// const gamePage = (req, res) => {
-//   res.render('game');
-// };
-
 const passPage = (req, res) => {
   res.render('passChange');
 };
@@ -150,7 +146,6 @@ const getUsername = (request, response) => {
   const req = request;
   const res = response;
   const username = req.session.account.username;
-  console.log(username);
   res.json(username);
 };
 

@@ -1,0 +1,65 @@
+.lobby {
+    width: 40%;
+    max-width: 70%;
+    margin: 0 auto;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border: 2px solid #801616;
+    border-radius: 4px;
+    background-color: rgb(160, 29, 62);
+    padding: 10px;
+    min-height:60px;
+    overflow: hidden;
+    font-size: 25px;
+    display: flex;
+    flex-direction: row;
+}
+
+.deleteLobby{
+    float: right;
+    color: black;
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 4px;
+    width: 10%;
+    height: 10%;
+    margin-top: 32px;
+    margin-left: 35px;
+    background-color: #FF7878;
+    border: 2px solid #801616;
+    transition: background-color 0.4s ease;
+}
+
+.deleteLobby:hover {
+    transition: background-color 0.8s ease;
+    background-color: rgb(255, 71, 71);
+}
+
+#nav{
+   padding-top: 32px;
+   float: right;
+}
+#makeLobby{
+    color: white;
+    font-size: 1.2em;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#reset{
+    display: flex;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.makeLobbySubmit{
+    margin: 0 auto;
+    text-align: center;
+}
+
+input {
+    background-color: #961c1c;
+    color: white;
+    border-radius: 8px;
+    border-color: #BF2121;
+}

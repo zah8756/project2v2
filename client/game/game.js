@@ -5,6 +5,7 @@ let name ='test';
 const handleText = (e) =>{
   e.preventDefault(); // prevents page reloading
   console.log('clap');
+  //changed how I find the player now it properly displays who typed what in chat 
   socket.emit('chat message', $('#username').val() +" : "+ $('#m').val());
   $('#m').val('');
 
@@ -53,6 +54,7 @@ const gameCheck = () => {
       }, 5000);
   });
 
+  //the players descions are now disaplyed after every round to see how you won or lost 
   socket.on('player 1 wins', function (user) {
       $('#info').append($('<li>').text(`${user[0].userName} picked ${user[0].playerDecision}`));
       $('#info').append($('<li>').text(`${user[1].userName} picked ${user[1].playerDecision}`));
@@ -104,7 +106,7 @@ const GameForm = (props) => {
       </form>
   );
 };
-
+//creates the basis for rock paper scissors from 
 const RPSForm = (props) => {
   return(
     <form id='RPSForm'
@@ -130,7 +132,7 @@ const RPSForm = (props) => {
     </form>
   );
 }
-//incriments whoever wins win value and updaLosses does the same with losses 
+//incriments whoever wins win value and updateLosses does the same with losses 
 const updateWins = () => {
   sendAjax('POST','/update',`_csrf=${document.querySelector('#csrftoken').value}&playerN=${name}`, () => {
 

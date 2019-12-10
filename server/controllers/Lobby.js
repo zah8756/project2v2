@@ -12,13 +12,13 @@ const lobbyPage = (request, response) => {
     return res.render('lobbyList', { csrfToken: req.csrfToken(), lobby: docs });
   });
 };
-
+// using data from the lobby page we send that dat over to see which room we are entering
 const gamePage = (req, res) => {
   console.log(`${req.query.lobby} this is the test name`);
   res.render('game', { lName: req.query.lobby });
 };
 
-
+// create a new lobby
 const makeLobby = (req, res) => {
   console.log('created');
   const LobbyData = {
@@ -41,7 +41,7 @@ const makeLobby = (req, res) => {
   });
   return lobbyPromise;
 };
-
+// using a lobby's unique id we are able to take them down and delete them
 const deleteLobby = (req, res) => {
   if (!req.body.id) {
     return res.status(400).json({ error: 'lobby id is required to delete.' });
@@ -57,6 +57,7 @@ const deleteLobby = (req, res) => {
   });
 };
 
+// get a list of all lobby's
 const getLobbys = (request, response) => {
   const req = request;
   const res = response;

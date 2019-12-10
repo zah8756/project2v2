@@ -23,7 +23,7 @@ const PlayerList = function(props) {
     const playerNodes = props.players.map(function(player) {
         return (
             <div key={player._id} className='player'>
-                <img src='/assets/img/fistBump.png' alt='fistBump' className='fistBump'/>
+                <img src='/assets/img/crown.png' alt='crown' className='fistBump'/>
                 <h3 className='playerName'> Name: {player.name} </h3>
                 <h3 className='playerAge'> Wins: {player.wins} </h3>
                 <h3 className='playerLevel'> Losses: {player.losses} </h3>
